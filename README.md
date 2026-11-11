@@ -1,1 +1,5 @@
 # SpectralSequence
+
+## Integrantes
+- Brayan
+- Jubey
