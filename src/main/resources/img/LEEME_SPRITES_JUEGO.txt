@@ -1,0 +1,96 @@
+SPECTRAL SEQUENCE - SPRITES DEL JUEGO (escala final para el lienzo de 400 x 300)
+
+Regla general
+- Todo se dibuja en el lienzo de 400 x 300 a escala 1 y luego se agranda entero (x2, x3) con NEAREST_NEIGHBOR.
+- Cada hoja .png es una sola fila: cuadro i = (i * anchoCelda, 0, anchoCelda, altoCelda).
+- Posicion en pantalla = posicion de los pies en el mundo - ancla.
+- Para mirar al otro lado se voltea la imagen en Java (no hay hojas volteadas).
+
+IAN  (PERSONAJES/IAN_JUEGO)  - mira a la DERECHA
+- Celda 80 x 72. Ancla (pies) = (28, 62). Mide unos 49 px de alto (3 tiles).
+- Hitbox sugerida: x 18..38, y 14..62 de la celda (20 x 48).
+- reposo 8 (120 ms, bucle) | caminar 8 (100 ms, bucle) | disparar 12 (una vez)
+  dano 12 (una vez) | morir 12 (una vez, quedarse en el ultimo) | salto 16
+- Salto: la fisica mueve a Ian; usar cuadros 1-4 despegue, 5-7 subiendo,
+  8 punto mas alto (repetir mientras sube lento), 9-11 cayendo (repetir 10-11 mientras cae),
+  12-15 aterrizaje.
+- La bala sale en el cuadro 6 de disparar, desde la boca del arma: pies + (20, -36).
+- POWER UP activo: usar las hojas *_poder (contorno dorado) y dibujar encima
+  Ian_aura_particulas (8 cuadros, 80 ms, bucle) en la misma posicion.
+- Invulnerabilidad: parpadeo en codigo (dibujar un cuadro si y otro no cada 80 ms).
+- Tiempos exactos en ian_animaciones.json.
+
+SPECTRUM  (PERSONAJES/SPECTRUM)  - mira a la IZQUIERDA
+- Celda 48 x 48. Ancla (pies) = (24, 46). Hitbox sugerida x 10..36, y 8..46.
+- reposo 6 (140 ms) | perseguir 6 (90 ms) | ataque 6 (garras; dano en el cuadro 4)
+  dano 2 | muerte 8 (una vez)
+- RENACIDO: mismas animaciones con _renacido (color violeta) + renacer 8 cuadros
+  (aparicion; no hace dano hasta terminar). Asi se nota que es mas rapido.
+
+ARGON  (PERSONAJES/ARGON_JUEGO)  - de frente
+- Celda 128 x 128. Ancla (pies) = (64, 116). Hitbox sugerida x 40..88, y 24..116.
+- Fase normal: reposo 10, ataque 14 (el proyectil sale a mitad), teletransporte 12, dano 10.
+- Al bajar de 100 HP: transformacion_furia 12 (una vez) y luego las versiones _furia.
+- Muerte: muerte 10 y despues exodo 10 (la gema flotando). Al terminar el exodo aparece el Nexus en ese punto.
+
+PROYECTILES
+- Bala_Ian_normal 12 x 5, ancla (11,2) punta. 4 cuadros bucle.
+- Bala_Ian_poder 18 x 9, ancla (17,4). 4 cuadros bucle.
+- Destello_disparo(_poder) 10 x 10, ancla (2,5), 3 cuadros, en la boca del arma.
+- Impacto_bala(_poder) 16 x 16, centro (8,8), 6 cuadros, al chocar.
+- Argon_proyectil_juego 24 x 48, ancla (12,45) punta. Es el proyectil del equipo a la mitad
+  de tamano para que quede en proporcion con Ian. Argon_aviso_juego 32 x 16 en el suelo
+  (ancla 16,8) y Argon_impacto_juego 40 x 32 (ancla 20,26).
+
+OBJETOS  (PLATAFORMA/OBJETOS)
+- Corazon 20 x 20 (+1 corazon) | Vida_extra 22 x 22 (+1 vida) | Nexus 24 x 32.
+  Los tres flotan en 8 cuadros (110-120 ms, bucle). Ancla = centro abajo (sombra).
+- Recoger_corazon / Recoger_vida / Recoger_nexus: 24 x 24, 6 cuadros, al tomarlo.
+- Checkpoint 16 x 32: apagado (1), activando (4, una vez), encendido (6, bucle).
+
+PRUEBAS_ESCALA: dos capturas para ver todo junto a la escala real.
+
+======================================================================
+NIVEL  (PLATAFORMA/NIVEL)  - un solo nivel continuo de 2000 x 300
+======================================================================
+- 0 a 1600: recorrido (4 pantallas). 1600 a 2000: arena de Argon (camara fija).
+- Nivel_fondo.png (fondo completo) + Nivel_plataformas.png (tiles, transparente).
+  Para parallax se pueden usar por separado Fondo_capa_cielo / catedral / humo / ruinas.
+- nivel.json trae TODO lo que el codigo necesita ([x, y, ancho, alto]):
+  colisiones.suelo, colisiones.plataforma (se atraviesa desde abajo), colisiones.bloque,
+  colisiones.pinchos (muerte inmediata), colisiones.pared (arena).
+  entidades: ian_inicio, spectrums (4), checkpoints (2), corazones, vidas,
+  arena (puerta, disparador_x, 5 puntos de teletransporte de Argon).
+- Arena_puerta.png 16 x 48: se dibuja en (1600, 220) cuando empieza la pelea y se quita al ganar.
+- Nivel_guia.png: el mapa con todo marcado (S1-S4, CP1-CP2, T1-T5).
+
+======================================================================
+MENUS  (MENU/menu)
+======================================================================
+Lienzo 400 x 300 (los _800x600 / _x2 son la misma imagen a x2).
+Botones grandes 120 x 20 (o 140 x 20) con 6 estados en una fila:
+normal, hover1-4 (animacion de brasas), presionado.
+
+PORTADA: NUEVA PARTIDA (16,190), INSTRUCCIONES (16,214), RANKING (264,190), SALIR (264,214).
+  Musica (346,241) y Efectos (368,241), 18 x 18, 4 estados: encendido, encendido_hover,
+  apagado, apagado_hover. Funcionan por separado.
+NOMBRE: igual que antes (VOLVER y COMENZAR).
+INSTRUCCIONES: 2 paginas. Pagina 1 = controles, pagina 2 = reglas.
+  Botones 100 x 20 en (40,262) y (260,262):
+  pag. 1: VOLVER | SIGUIENTE   -   pag. 2: ANTERIOR | VOLVER.
+PAUSA: 5 barras de 168 x 11 en x=116, y = 134, 150, 166, 182, 198:
+  CONTINUAR, REINICIAR DESDE CHECKPOINT, REINICIAR PARTIDA, INSTRUCCIONES, VOLVER AL INICIO.
+  Cada boton tiene 3 estados (normal, hover, presionado). El juego se ve borroso detras.
+GAME OVER y VICTORIA: primero su animacion (susto / anillo de luz) y luego el MISMO panel
+  (RESULTADOS/Resultados_panel). Posiciones de los textos en resultados_posiciones.json:
+  valores en x=174 (y 102, 113, 124, 135): nombre, resultado, puntaje, tiempo.
+  Top 3: nombre x=122, puntos alineados a la derecha en x=243, tiempo a la derecha en x=291,
+  filas y = 176, 187, 198. Boton VOLVER AL INICIO (140 x 20) en (130,221).
+RANKING: Top 3 dentro de la boca. Filas y = 134, 158, 182; nombre x=124,
+  puntos a la derecha x=250, tiempo a la derecha x=292. Boton VOLVER (100 x 20) en (150,240).
+  Orden: mayor puntaje primero; si empatan, menor tiempo.
+
+HUD: vida_0..7 en (4,3), poder_0..7 en (4,18) (o poder_listo / poder_activo),
+  vidas_0..3 en (88,4), PUNTOS y tiempo arriba a la derecha (fuente 5x7, en codigo).
+  Barra de Argon 272 x 44 en (64,256): cada mitad mide 80 * vida/200 px.
+  Las marcas doradas son 150, 100 y 50 HP. Con 100 HP o menos se usan los archivos _ira.
