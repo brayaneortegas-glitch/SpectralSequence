@@ -18,7 +18,7 @@ IAN  (PERSONAJES/IAN_JUEGO)  - mira a la DERECHA
 - POWER UP activo: usar las hojas *_poder (contorno dorado) y dibujar encima
   Ian_aura_particulas (8 cuadros, 80 ms, bucle) en la misma posicion.
 - Invulnerabilidad: parpadeo en codigo (dibujar un cuadro si y otro no cada 80 ms).
-- Tiempos exactos en ian_animaciones.json.
+- Tiempos exactos al final de este archivo.
 
 SPECTRUM  (PERSONAJES/SPECTRUM)  - mira a la IZQUIERDA
 - Celda 48 x 48. Ancla (pies) = (24, 46). Hitbox sugerida x 10..36, y 8..46.
@@ -56,11 +56,7 @@ NIVEL  (PLATAFORMA/NIVEL)  - un solo nivel continuo de 2000 x 300
 - 0 a 1600: recorrido (4 pantallas). 1600 a 2000: arena de Argon (camara fija).
 - Nivel_fondo.png (fondo completo) + Nivel_plataformas.png (tiles, transparente).
   Para parallax se pueden usar por separado Fondo_capa_cielo / catedral / humo / ruinas.
-- nivel.json trae TODO lo que el codigo necesita ([x, y, ancho, alto]):
-  colisiones.suelo, colisiones.plataforma (se atraviesa desde abajo), colisiones.bloque,
-  colisiones.pinchos (muerte inmediata), colisiones.pared (arena).
-  entidades: ian_inicio, spectrums (4), checkpoints (2), corazones, vidas,
-  arena (puerta, disparador_x, 5 puntos de teletransporte de Argon).
+- Todas las posiciones del nivel estan al final de este archivo (DATOS DEL NIVEL).
 - Arena_puerta.png 16 x 48: se dibuja en (1600, 220) cuando empieza la pelea y se quita al ganar.
 - Nivel_guia.png: el mapa con todo marcado (S1-S4, CP1-CP2, T1-T5).
 
@@ -82,7 +78,7 @@ PAUSA: 5 barras de 168 x 11 en x=116, y = 134, 150, 166, 182, 198:
   CONTINUAR, REINICIAR DESDE CHECKPOINT, REINICIAR PARTIDA, INSTRUCCIONES, VOLVER AL INICIO.
   Cada boton tiene 3 estados (normal, hover, presionado). El juego se ve borroso detras.
 GAME OVER y VICTORIA: primero su animacion (susto / anillo de luz) y luego el MISMO panel
-  (RESULTADOS/Resultados_panel). Posiciones de los textos en resultados_posiciones.json:
+  (RESULTADOS/Resultados_panel). Posiciones de los textos:
   valores en x=174 (y 102, 113, 124, 135): nombre, resultado, puntaje, tiempo.
   Top 3: nombre x=122, puntos alineados a la derecha en x=243, tiempo a la derecha en x=291,
   filas y = 176, 187, 198. Boton VOLVER AL INICIO (140 x 20) en (130,221).
@@ -94,3 +90,103 @@ HUD: vida_0..7 en (4,3), poder_0..7 en (4,18) (o poder_listo / poder_activo),
   vidas_0..3 en (88,4), PUNTOS y tiempo arriba a la derecha (fuente 5x7, en codigo).
   Barra de Argon 272 x 44 en (64,256): cada mitad mide 80 * vida/200 px.
   Las marcas doradas son 150, 100 y 50 HP. Con 100 HP o menos se usan los archivos _ira.
+
+======================================================================
+DATOS DEL NIVEL
+======================================================================
+Nivel de 2000 x 300. Rectangulos = x, y, ancho, alto. Puntos = x, y de los pies.
+
+SUELO (solido):
+     0, 268,  368,  32
+   416, 268,  112,  32
+   528, 236,  128,  64
+  1008, 268,  432,  32
+  1472, 268,  128,  32
+  1600, 268,  400,  32
+
+PLATAFORMAS (se atraviesan desde abajo, 7 px de alto):
+    80, 220,   96,   7
+   208, 172,  112,   7
+   448, 188,   64,   7
+  1072, 220,   96,   7
+  1200, 172,  112,   7
+  1344, 220,   80,   7
+  1648, 220,   80,   7
+  1872, 220,   80,   7
+  1760, 172,   80,   7
+
+BLOQUES DE SALTO (solidos, 16 x 16):
+   688, 236,   16,  16
+   736, 204,   16,  16
+   784, 220,   16,  16
+   832, 188,   16,  16
+   880, 220,   16,  16
+   928, 204,   16,  16
+   976, 236,   16,  16
+
+PINCHOS (muerte inmediata):
+   368, 286,   48,  14
+   656, 286,  352,  14
+  1440, 286,   32,  14
+
+PAREDES DE LA ARENA (solidas):
+  1600,   0,   16, 220
+  1984,   0,   16, 268
+
+ENTIDADES:
+  Ian aparece en          40, 268
+  Spectrum 1              296, 268
+  Spectrum 2              488, 268
+  Spectrum 3              1128, 268
+  Spectrum 4              1256, 172
+  Checkpoint 1            616, 236
+  Checkpoint 2            1544, 268
+  Corazon (objeto)        264, 168
+  Vida extra (objeto)     840, 182
+
+ARENA:
+  Empieza en x = 1600 (400 de ancho, camara fija).
+  La pelea empieza cuando Ian pasa x = 1632.
+  Puerta (Arena_puerta.png): 1600, 220, 16, 48
+  Teletransporte T1 de Argon  1664, 268
+  Teletransporte T2 de Argon  1936, 268
+  Teletransporte T3 de Argon  1688, 220
+  Teletransporte T4 de Argon  1912, 220
+  Teletransporte T5 de Argon  1800, 172
+  El Nexus aparece donde muere Argon.
+
+======================================================================
+TIEMPOS DE LAS ANIMACIONES
+======================================================================
+
+IAN (celda 80 x 72, pies en 28,62):
+  reposo        8 cuadros, bucle, ms: 120 120 120 120 120 120 120 120
+  caminar       8 cuadros, bucle, ms: 100 100 100 100 100 100 100 100
+  disparar     12 cuadros, una vez, ms: 70 60 60 60 90 40 50 60 90 70 70 100
+  dano         12 cuadros, una vez, ms: 60 40 40 50 60 50 50 60 60 70 80 120
+  morir        12 cuadros, una vez, ms: 100 90 80 70 70 60 50 50 60 80 100 500
+  salto        16 cuadros, una vez, ms: 80 60 80 40 50 60 70 80 60 50 40 40 70 70 70 100
+
+SPECTRUM (celda 48 x 48, pies en 24,46):
+  reposo        6 cuadros, bucle, ms: 140 140 140 140 140 140
+  perseguir     6 cuadros, bucle, ms: 90 90 90 90 90 90
+  ataque        6 cuadros, una vez, ms: 120 90 70 60 90 140
+  dano          2 cuadros, una vez, ms: 70 160
+  muerte        8 cuadros, una vez, ms: 60 90 80 80 90 100 110 140
+  renacer       8 cuadros, una vez, ms: 90 80 80 70 70 60 60 120
+
+ARGON (celda 128 x 128, pies en 64,116; 100 ms por cuadro):
+  muerte                 10 cuadros
+  ataque                 14 cuadros
+  ataque_furia           14 cuadros
+  exodo                  10 cuadros
+  transformacion_furia   12 cuadros
+  dano                   10 cuadros
+  dano_furia             10 cuadros
+  reposo                 10 cuadros
+  reposo_furia           10 cuadros
+  teletransporte         12 cuadros
+  teletransporte_furia   12 cuadros
+
+RANKING - gotas de sangre: gota_sangre.png cae desde estos puntos (medidos en la imagen x2, 800 x 600):
+  60,184  120,224  184,210  244,214  308,212  368,226  432,226  492,218  556,214  616,204  680,212  740,188
