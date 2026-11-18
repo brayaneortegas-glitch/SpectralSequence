@@ -1,0 +1,23 @@
+{
+ "valores_x": 174,
+ "filas_y": [
+  102,
+  113,
+  124,
+  135
+ ],
+ "top_y": [
+  176,
+  187,
+  198
+ ],
+ "col_nombre_x": 122,
+ "col_puntos_derecha": 243,
+ "col_tiempo_derecha": 291,
+ "boton": [
+  130,
+  221,
+  140,
+  20
+ ]
+}

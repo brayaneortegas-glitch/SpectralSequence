@@ -1,0 +1,44 @@
+{
+ "botones_120x20": {
+  "NUEVA PARTIDA": [
+   16,
+   190
+  ],
+  "INSTRUCCIONES": [
+   16,
+   214
+  ],
+  "RANKING": [
+   264,
+   190
+  ],
+  "SALIR": [
+   264,
+   214
+  ]
+ },
+ "sonido_18x18": {
+  "MUSICA": [
+   346,
+   241
+  ],
+  "EFECTOS": [
+   368,
+   241
+  ]
+ },
+ "estados_sonido": [
+  "encendido",
+  "encendido_hover",
+  "apagado",
+  "apagado_hover"
+ ],
+ "estados_botones": [
+  "normal",
+  "hover1",
+  "hover2",
+  "hover3",
+  "hover4",
+  "presionado"
+ ]
+}
