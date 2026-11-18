@@ -1,0 +1,53 @@
+{
+ "celda": [
+  128,
+  128
+ ],
+ "escala": "1/4 de los sprites originales 512x512",
+ "animaciones": {
+  "muerte": {
+   "cuadros": 10,
+   "original": "dead"
+  },
+  "ataque": {
+   "cuadros": 14,
+   "original": "evoke"
+  },
+  "ataque_furia": {
+   "cuadros": 14,
+   "original": "evoke-fury"
+  },
+  "exodo": {
+   "cuadros": 10,
+   "original": "exodo"
+  },
+  "transformacion_furia": {
+   "cuadros": 12,
+   "original": "fury"
+  },
+  "dano": {
+   "cuadros": 10,
+   "original": "hurt"
+  },
+  "dano_furia": {
+   "cuadros": 10,
+   "original": "hurt-fury"
+  },
+  "reposo": {
+   "cuadros": 10,
+   "original": "idle"
+  },
+  "reposo_furia": {
+   "cuadros": 10,
+   "original": "idle-fury"
+  },
+  "teletransporte": {
+   "cuadros": 12,
+   "original": "tp"
+  },
+  "teletransporte_furia": {
+   "cuadros": 12,
+   "original": "tp-fury"
+  }
+ }
+}
