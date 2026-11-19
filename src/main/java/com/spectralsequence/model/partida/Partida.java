@@ -4,6 +4,7 @@ public class Partida {
     private static final int MAX_VIDAS = 3;
     private int segundosJugados = 0;
     private boolean pausada = false;
+    private boolean victoria = false;
     private static final int ULTIMO_CHECKPOINT = 2;
     private int checkpointActual = 0;
     private int vidas = MAX_VIDAS;
@@ -22,10 +23,10 @@ public class Partida {
     }
 
     public void registrarMuerte() {
-        if (reaparicionPendiente || estaEnGameOver()) {
+        if (reaparicionPendiente || estaTerminada()) {
             return;
         }
-            vidas = vidas - 1;
+        vidas = vidas - 1;
         reaparicionPendiente = vidas > 0;
     }
 
@@ -34,7 +35,7 @@ public class Partida {
     }
 
     public boolean recuperarVida() {
-        if (estaEnGameOver() || reaparicionPendiente || vidas >= MAX_VIDAS) {
+        if (estaTerminada() || reaparicionPendiente || vidas >= MAX_VIDAS) {
             return false;
         }
         vidas = vidas + 1;
@@ -46,9 +47,8 @@ public class Partida {
     }
 
     public void activarCheckpoint(int numero) {
-        // Solo se activa un punto válido y posterior al actual.
         if (numero > checkpointActual && numero <= ULTIMO_CHECKPOINT
-                && !reaparicionPendiente && !estaEnGameOver()) {
+                && !reaparicionPendiente && !estaTerminada()) {
             checkpointActual = numero;
         }
     }
@@ -66,9 +66,25 @@ public class Partida {
     }
 
     public void contarSegundo() {
-        // Suma solo mientras la partida está en marcha.
-        if (!pausada && !estaEnGameOver()) {
+        if (!pausada && !estaTerminada()) {
             segundosJugados = segundosJugados + 1;
         }
+    }
+
+    public boolean hayVictoria() {
+        return victoria;
+    }
+
+    public boolean estaTerminada() {
+        return victoria || estaEnGameOver();
+    }
+
+    public boolean registrarVictoria() {
+        if (estaTerminada() || pausada || reaparicionPendiente) {
+            return false;
+        }
+
+        victoria = true;
+        return true;
     }
 }
