@@ -2,6 +2,8 @@ package com.spectralsequence.model.partida;
 
 public class Partida {
     private static final int MAX_VIDAS = 3;
+    private int segundosJugados = 0;
+    private boolean pausada = false;
     private static final int ULTIMO_CHECKPOINT = 2;
     private int checkpointActual = 0;
     private int vidas = MAX_VIDAS;
@@ -48,6 +50,25 @@ public class Partida {
         if (numero > checkpointActual && numero <= ULTIMO_CHECKPOINT
                 && !reaparicionPendiente && !estaEnGameOver()) {
             checkpointActual = numero;
+        }
+    }
+
+    public int getSegundosJugados() {
+        return segundosJugados;
+    }
+
+    public boolean estaPausada() {
+        return pausada;
+    }
+
+    public void setPausada(boolean pausada) {
+        this.pausada = pausada;
+    }
+
+    public void contarSegundo() {
+        // Suma solo mientras la partida está en marcha.
+        if (!pausada && !estaEnGameOver()) {
+            segundosJugados = segundosJugados + 1;
         }
     }
 }
