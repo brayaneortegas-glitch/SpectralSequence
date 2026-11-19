@@ -2,6 +2,8 @@ package com.spectralsequence.model.partida;
 
 public class Partida {
     private static final int MAX_VIDAS = 3;
+    private static final int ULTIMO_CHECKPOINT = 2;
+    private int checkpointActual = 0;
     private int vidas = MAX_VIDAS;
     private boolean reaparicionPendiente = false;
 
@@ -35,5 +37,17 @@ public class Partida {
         }
         vidas = vidas + 1;
         return true;
+    }
+
+    public int getCheckpointActual() {
+        return checkpointActual;
+    }
+
+    public void activarCheckpoint(int numero) {
+        // Solo se activa un punto válido y posterior al actual.
+        if (numero > checkpointActual && numero <= ULTIMO_CHECKPOINT
+                && !reaparicionPendiente && !estaEnGameOver()) {
+            checkpointActual = numero;
+        }
     }
 }
