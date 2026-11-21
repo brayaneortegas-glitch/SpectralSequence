@@ -29,6 +29,7 @@ public class PanelPortada extends JPanel {
         setLayout(null);
 
         JButton botonNueva = new JButton();
+        botonNueva.addActionListener(e -> ventana.mostrar(new PanelNombre(ventana)));
         botonNueva.setBounds(32,380,240,40);
         botonNueva.setBorderPainted(false);
         botonNueva.setContentAreaFilled(false);

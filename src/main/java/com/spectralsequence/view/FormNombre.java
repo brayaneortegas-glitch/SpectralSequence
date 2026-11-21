@@ -1,0 +1,25 @@
+package com.spectralsequence.view;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class FormNombre {
+    private JPanel panelPrincipal;
+    private JTextField campoNombre;
+    private JButton botonComenzar;
+    private JButton botonVolver;
+
+
+
+    public FormNombre(){
+        panelPrincipal.setOpaque(false); //HACE TRANSPARENTE EL PANEL
+        campoNombre.setBorder(null);
+        campoNombre.setCaretColor(new Color(230,200,120));
+    }
+
+    public JPanel getPanelPrincipal(){
+
+        return panelPrincipal;
+
+    }
+}
