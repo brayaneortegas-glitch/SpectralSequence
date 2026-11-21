@@ -9,7 +9,7 @@ public class PanelPortada extends JPanel {
     private int indice = 0;
     private  Timer timer;
 
-    public PanelPortada(){
+    public PanelPortada(VentanaPrincipal ventana){
 
         for (int i = 0; i < 4; i++){
             fondos[i]=new ImageIcon(getClass().getResource("/img/menu/PORTADA/Portada_Oscura_fondo_" + (i + 1) + ".png")).getImage();
@@ -43,6 +43,7 @@ public class PanelPortada extends JPanel {
         botonInstrucciones.setContentAreaFilled(false);
         botonInstrucciones.setFocusPainted(false);
         botonInstrucciones.setIcon(new ImageIcon(getClass().getResource("/img/menu/PORTADA/botones/btn_INSTRUCCIONES_normal.png")));
+        botonInstrucciones.addActionListener(e -> ventana.mostrar(new PanelInstrucciones(ventana)));
         add(botonInstrucciones);
 
         JButton botonRanking = new JButton();
@@ -59,6 +60,7 @@ public class PanelPortada extends JPanel {
         botonSalir.setBounds(528,428,240,40);
         botonSalir.setFocusPainted(false);
         botonSalir.setIcon(new ImageIcon(getClass().getResource("/img/menu/PORTADA/botones/btn_SALIR_normal.png")));
+        botonSalir.addActionListener(e -> System.exit(0));
         add(botonSalir);
 
 

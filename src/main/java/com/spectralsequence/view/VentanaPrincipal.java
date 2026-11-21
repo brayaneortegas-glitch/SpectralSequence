@@ -10,10 +10,18 @@ public class VentanaPrincipal extends JFrame {
         setTitle("Spectral Sequence");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        add(new PanelPortada());
+        add(new PanelPortada(this));
         pack();
         setLocationRelativeTo(null);
 
+    }
+
+    public void mostrar(JPanel panel){
+
+        setContentPane(panel);
+        pack();
+        revalidate();
+        repaint();
     }
 
 
