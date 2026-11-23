@@ -19,6 +19,36 @@ public class PanelNombre extends JPanel {
         panelFormulario.setBounds(204,264,392,204);
         add(panelFormulario);
 
+        formulario.getBotonVolver().addActionListener(e -> ventana.mostrar(new PanelPortada(ventana)));
+
+        formulario.getBotonComenzar().addActionListener(e -> {
+
+            String nombre = formulario.getCampoNombre().getText().trim();
+
+            if (nombre.isEmpty()){
+
+                JOptionPane.showMessageDialog(this, "Escribe tu nombre para comenzar");
+
+            } else if (nombre.length() > 12) {
+
+                JOptionPane.showMessageDialog(this,"El nombre puede tener maximo 12 caracteres");
+
+
+            } else if (nombre.contains(";")) {
+
+                JOptionPane.showMessageDialog(this, "El nombre no puede tener el simbolo ;");
+
+            }else {
+
+                JOptionPane.showMessageDialog(this,"Bienvenido " + nombre);
+            }
+
+
+        });
+
+        formulario.getCampoNombre().addActionListener(e -> formulario.getBotonComenzar().doClick());
+
+
 
 
 

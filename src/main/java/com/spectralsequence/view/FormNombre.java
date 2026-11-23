@@ -22,4 +22,35 @@ public class FormNombre {
         return panelPrincipal;
 
     }
+
+    public JTextField getCampoNombre(){
+
+        return campoNombre;
+
+
+    }
+
+    public JButton getBotonComenzar(){
+
+        return botonComenzar;
+
+
+    }
+
+    public JButton getBotonVolver(){
+
+        return botonVolver;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
