@@ -7,9 +7,7 @@ public class PanelInstrucciones extends JPanel {
 
     private Image[] fondos = new Image[2];
     private int pagina = 0;
-    private JButton botonVolver;
-    private JButton botonAnterior;
-    private JButton botonSiguiente;
+
 
     public PanelInstrucciones(VentanaPrincipal ventana){
 
@@ -19,53 +17,30 @@ public class PanelInstrucciones extends JPanel {
         setPreferredSize(new Dimension(800,600));
         setLayout(null);
 
-        botonVolver = new JButton();
-        botonVolver.setBounds(80,524,200,40);
-        botonVolver.setBorderPainted(false);
-        botonVolver.setContentAreaFilled(false);
-        botonVolver.setFocusPainted(false);
-        botonVolver.setIcon(new ImageIcon(getClass().getResource("/img/menu/INSTRUCCIONES/botones/btn_VOLVER_normal.png")));
-        botonVolver.addActionListener(e -> ventana.mostrar(new PanelPortada(ventana)));
-        add(botonVolver);
+       FormInstrucciones formulario = new FormInstrucciones();
+       JPanel panelFormulario = formulario.getPanelPrincipal();
+       panelFormulario.setBounds(80,524,640,40);
+       add(panelFormulario);
 
+       formulario.getBotonAnterior().setVisible(false);
 
-        botonSiguiente = new JButton();
-        botonSiguiente.setBounds(520,524,200,40);
-        botonSiguiente.setBorderPainted(false);
-        botonSiguiente.setContentAreaFilled(false);
-        botonSiguiente.setFocusPainted(false);
-        botonSiguiente.setIcon(new ImageIcon(getClass().getResource("/img/menu/INSTRUCCIONES/botones/btn_SIGUIENTE_normal.png")));
-        botonSiguiente.addActionListener(e -> {
-            pagina = 1;
-            botonVolver.setVisible(false);
-            botonSiguiente.setVisible(false);
-            botonAnterior.setVisible(true);
-            repaint();
+       formulario.getBotonVolver().addActionListener(e -> ventana.mostrar(new PanelPortada(ventana)));
 
+       formulario.getBotonSiguiente().addActionListener(e -> {
 
-        });
+           pagina = 1;
+           formulario.getBotonSiguiente().setVisible(false);
+           formulario.getBotonAnterior().setVisible(true);
+           repaint();
+       });
 
-        botonAnterior = new JButton();
-        botonAnterior.setBounds(80,524,200,40);
-        botonAnterior.setBorderPainted(false);
-        botonAnterior.setContentAreaFilled(false);
-        botonAnterior.setFocusPainted(false);
-        botonAnterior.setIcon(new ImageIcon(getClass().getResource("/img/menu/INSTRUCCIONES/botones/btn_ANTERIOR_normal.png")));
-        botonAnterior.setVisible(false);
-        botonAnterior.addActionListener(e -> {
+       formulario.getBotonAnterior().addActionListener(e -> {
 
-            pagina = 0;
-            botonVolver.setVisible(true);
-            botonSiguiente.setVisible(true);
-            botonAnterior.setVisible(false);
-            repaint();
-
-        });
-
-
-        add(botonSiguiente);
-        add(botonAnterior);
-
+           pagina = 0;
+           formulario.getBotonSiguiente().setVisible(true);
+           formulario.getBotonAnterior().setVisible(false);
+           repaint();
+       });
 
 
 
