@@ -1,8 +1,8 @@
 package MVC.modelo.entidades;
 
-import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
-abstract class Entidad {
+public abstract class Entidad {
     private double x;
     private double y;
     private int ancho;
@@ -31,8 +31,8 @@ abstract class Entidad {
         return ancho;
     }
 
-    public Rectangle obtenerLimites() {
-        return new Rectangle((int) x, (int) y, ancho, alto);
+    public Rectangle2D obtenerLimites() {
+        return new Rectangle2D.Double(x, y, ancho, alto);
     }
 
     public void establecerPosicion(double x, double y) {

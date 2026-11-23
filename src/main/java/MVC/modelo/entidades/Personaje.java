@@ -1,10 +1,10 @@
 package MVC.modelo.entidades;
 
-abstract class Personaje extends Entidad {
-    protected int saludActual;
-    protected int saludMaxima;
-    protected double velocidad;
-    protected int direccion;
+public abstract class Personaje extends Entidad {
+    private int saludActual;
+    private int saludMaxima;
+    private double velocidad;
+    private int direccion;
 
     public Personaje(double x, double y, int ancho, int alto, int saludMaxima, double velocidad) {
         super(x, y, ancho, alto);
@@ -31,7 +31,7 @@ abstract class Personaje extends Entidad {
         return true;
     }
 
-    public int getSaludActual() {
+    public int getSalud() {
         return saludActual;
     }
 
