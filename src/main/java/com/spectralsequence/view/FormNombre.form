@@ -24,18 +24,28 @@
       </component>
       <component id="4f5dc" class="javax.swing.JButton" binding="botonComenzar">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="200" height="40"/>
+            <preferred-size width="200" height="40"/>
+            <maximum-size width="200" height="40"/>
+          </grid>
         </constraints>
         <properties>
-          <text value="COMENZAR"/>
+          <icon value="img/menu/NOMBRE/botones/btn_COMENZAR_normal.png"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="32c70" class="javax.swing.JButton" binding="botonVolver">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="200" height="40"/>
+            <preferred-size width="200" height="40"/>
+            <maximum-size width="200" height="40"/>
+          </grid>
         </constraints>
         <properties>
-          <text value="VOLVER"/>
+          <icon value="img/menu/NOMBRE/botones/btn_VOLVER_GRANDE_normal.png"/>
+          <text value=""/>
         </properties>
       </component>
       <vspacer id="f4801">

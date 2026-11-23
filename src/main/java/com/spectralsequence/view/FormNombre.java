@@ -15,6 +15,14 @@ public class FormNombre {
         panelPrincipal.setOpaque(false); //HACE TRANSPARENTE EL PANEL
         campoNombre.setBorder(null);
         campoNombre.setCaretColor(new Color(230,200,120));
+        botonComenzar.setBorderPainted(false);
+        botonComenzar.setContentAreaFilled(false);
+        botonComenzar.setFocusPainted(false);
+
+        botonVolver.setBorderPainted(false);
+        botonVolver.setContentAreaFilled(false);
+        botonVolver.setFocusPainted(false);
+
     }
 
     public JPanel getPanelPrincipal(){

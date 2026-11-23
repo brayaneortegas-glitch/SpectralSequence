@@ -28,41 +28,14 @@ public class PanelPortada extends JPanel {
         setPreferredSize(new Dimension(800,600));
         setLayout(null);
 
-        JButton botonNueva = new JButton();
-        botonNueva.addActionListener(e -> ventana.mostrar(new PanelNombre(ventana)));
-        botonNueva.setBounds(32,380,240,40);
-        botonNueva.setBorderPainted(false);
-        botonNueva.setContentAreaFilled(false);
-        botonNueva.setFocusPainted(false);
+        FormPortada formulario = new FormPortada();
+        JPanel panelFormulario = formulario.getPanelPrincipal();
+        panelFormulario.setBounds(32,364,736,96);
+        add(panelFormulario);
 
-        botonNueva.setIcon(new ImageIcon(getClass().getResource("/img/menu/PORTADA/botones/btn_NUEVA_PARTIDA_normal.png")));
-        add(botonNueva);
-
-        JButton botonInstrucciones = new JButton();
-        botonInstrucciones.setBounds(32,428,240,40);
-        botonInstrucciones.setBorderPainted(false);
-        botonInstrucciones.setContentAreaFilled(false);
-        botonInstrucciones.setFocusPainted(false);
-        botonInstrucciones.setIcon(new ImageIcon(getClass().getResource("/img/menu/PORTADA/botones/btn_INSTRUCCIONES_normal.png")));
-        botonInstrucciones.addActionListener(e -> ventana.mostrar(new PanelInstrucciones(ventana)));
-        add(botonInstrucciones);
-
-        JButton botonRanking = new JButton();
-        botonRanking.setBounds(528,380,240,40);
-        botonRanking.setBorderPainted(false);
-        botonRanking.setContentAreaFilled(false);
-        botonRanking.setFocusPainted(false);
-        botonRanking.setIcon(new ImageIcon(getClass().getResource("/img/menu/PORTADA/botones/btn_RANKING_normal.png")));
-        add(botonRanking);
-
-        JButton botonSalir = new JButton();
-        botonSalir.setBorderPainted(false);
-        botonSalir.setContentAreaFilled(false);
-        botonSalir.setBounds(528,428,240,40);
-        botonSalir.setFocusPainted(false);
-        botonSalir.setIcon(new ImageIcon(getClass().getResource("/img/menu/PORTADA/botones/btn_SALIR_normal.png")));
-        botonSalir.addActionListener(e -> System.exit(0));
-        add(botonSalir);
+        formulario.getBotonNueva().addActionListener(e -> ventana.mostrar(new PanelNombre(ventana)));
+        formulario.getBotonInstrucciones().addActionListener(e -> ventana.mostrar(new PanelInstrucciones(ventana)));
+        formulario.getBotonSalir().addActionListener(e -> System.exit(0));
 
 
 
