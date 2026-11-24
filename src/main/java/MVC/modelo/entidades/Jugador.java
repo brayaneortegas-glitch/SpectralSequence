@@ -10,6 +10,7 @@ public class Jugador extends Personaje {
     private static final double TIEMPO_PODER = 5.0;
     private static final double COOLDOWN_INVULNERABILIDAD = 1.5;
     private static final double ALTURA_PISTOLA = 0.45;
+    private static final double VELOCIDAD_PROYECTIL = 500;
 
     private double velocidadY;
     private boolean enSuelo;
@@ -19,7 +20,7 @@ public class Jugador extends Personaje {
     private double segundosPoder;
     private double invulnerabilidadRestante;
 
-    public Jugador(double x, double y, int ancho, int alto, int saludMaxima, double velocidad) {
+    public Jugador(double x, double y, int ancho, int alto) {
         super(x, y, ancho, alto, SALUD_BASE, VELOCIDAD_BASE);
         this.velocidadY = 0.0;
         this.enSuelo = false;
@@ -86,7 +87,7 @@ public class Jugador extends Personaje {
             origenX = getX();
         }
         double origenY = getY() + (getAlto() * ALTURA_PISTOLA);
-        return new Proyectil(origenX, origenY, getDireccion(), getDanioActual(), this);
+        return new Proyectil(origenX, origenY, getDireccion(), 0.0, VELOCIDAD_PROYECTIL, getDanioActual(), Proyectil.Origen.JUGADOR);
     }
 
     public int getDanioActual() {

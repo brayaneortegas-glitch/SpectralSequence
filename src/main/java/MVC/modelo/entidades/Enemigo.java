@@ -8,7 +8,7 @@ public abstract class Enemigo extends Personaje {
     private double cooldownAtaque;
     private double tiempoAtaqueRestante;
 
-    public Enemigo(int id, int danio, double cooldownAtaque, double ataqueRestante, double x, double y, int ancho, int alto, int saludMaxima, double velocidad) {
+    public Enemigo(int id, int danio, double cooldownAtaque, double x, double y, int ancho, int alto, int saludMaxima, double velocidad) {
         super(x, y, ancho, alto, saludMaxima, velocidad);
         this.id = id;
         this.danio = danio;
@@ -49,4 +49,5 @@ public abstract class Enemigo extends Personaje {
     public abstract void atacar(Jugador jugador, Nivel nivel);
 
     public abstract void actualizar(double dt, Jugador jugador, Nivel nivel);
+
 }

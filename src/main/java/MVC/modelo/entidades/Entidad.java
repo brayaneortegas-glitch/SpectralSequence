@@ -8,7 +8,7 @@ public abstract class Entidad {
     private int ancho;
     private int alto;
 
-    Entidad(double x, double y, int ancho, int alto) {
+    protected Entidad(double x, double y, int ancho, int alto) {
         this.x = x;
         this.y = y;
         this.ancho = ancho;
