@@ -36,7 +36,7 @@ public class PanelPortada extends JPanel {
         formulario.getBotonNueva().addActionListener(e -> ventana.mostrar(new PanelNombre(ventana)));
         formulario.getBotonInstrucciones().addActionListener(e -> ventana.mostrar(new PanelInstrucciones(ventana)));
         formulario.getBotonSalir().addActionListener(e -> System.exit(0));
-
+        formulario.getBotonRanking().addActionListener(e -> ventana.mostrar(new PanelRanking(ventana)));
 
 
 
