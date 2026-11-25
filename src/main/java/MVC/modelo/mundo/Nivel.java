@@ -82,7 +82,6 @@ public class Nivel {
     }
 
     public void actualizar(double dt) {
-        if (jugador == null || !Double.isFinite(dt) || dt <= 0.0) return;
         jugador.actualizar(dt);
         for (Enemigo enemigo : enemigos) {
             enemigo.actualizar(dt, jugador, this);
