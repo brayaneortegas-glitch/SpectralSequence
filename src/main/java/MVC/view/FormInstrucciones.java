@@ -1,4 +1,4 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 
@@ -8,7 +8,7 @@ public class FormInstrucciones {
     private JButton botonAnterior;
     private JButton botonSiguiente;
 
-    public FormInstrucciones(){
+    public FormInstrucciones() {
 
         panelPrincipal.setOpaque(false);
 
@@ -25,28 +25,27 @@ public class FormInstrucciones {
         botonSiguiente.setFocusPainted(false);
 
 
-
     }
 
-    public JPanel getPanelPrincipal(){
+    public JPanel getPanelPrincipal() {
 
         return panelPrincipal;
 
 
     }
 
-    public JButton getBotonVolver(){
+    public JButton getBotonVolver() {
 
         return botonVolver;
     }
 
-    public JButton getBotonAnterior(){
+    public JButton getBotonAnterior() {
 
         return botonAnterior;
 
     }
 
-    public JButton getBotonSiguiente(){
+    public JButton getBotonSiguiente() {
 
         return botonSiguiente;
 

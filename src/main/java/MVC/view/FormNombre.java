@@ -1,4 +1,4 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,11 +10,10 @@ public class FormNombre {
     private JButton botonVolver;
 
 
-
-    public FormNombre(){
+    public FormNombre() {
         panelPrincipal.setOpaque(false); //HACE TRANSPARENTE EL PANEL
         campoNombre.setBorder(null);
-        campoNombre.setCaretColor(new Color(230,200,120));
+        campoNombre.setCaretColor(new Color(230, 200, 120));
         botonComenzar.setBorderPainted(false);
         botonComenzar.setContentAreaFilled(false);
         botonComenzar.setFocusPainted(false);
@@ -25,40 +24,31 @@ public class FormNombre {
 
     }
 
-    public JPanel getPanelPrincipal(){
+    public JPanel getPanelPrincipal() {
 
         return panelPrincipal;
 
     }
 
-    public JTextField getCampoNombre(){
+    public JTextField getCampoNombre() {
 
         return campoNombre;
 
 
     }
 
-    public JButton getBotonComenzar(){
+    public JButton getBotonComenzar() {
 
         return botonComenzar;
 
 
     }
 
-    public JButton getBotonVolver(){
+    public JButton getBotonVolver() {
 
         return botonVolver;
 
     }
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -1,4 +1,4 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 
@@ -23,7 +23,7 @@ public class FormGameOver {
     private JButton botonVolverInicio;
 
 
-    public FormGameOver(){
+    public FormGameOver() {
 
         panelPrincipal.setOpaque(false);
 
