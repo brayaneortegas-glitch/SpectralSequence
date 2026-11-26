@@ -23,7 +23,7 @@ public class Arghon extends Enemigo {
 
     public Arghon(int id, int danio, double cooldownAtaque,
                   double x, double y, int ancho, int alto,
-                  List<Point2D.Double> posicionesTeleport) {
+                  List<Point2D.Double> posicionesTeletransporte) {
         super(id, danio, cooldownAtaque, x, y, ancho, alto,
                 SALUD_BASE, 0.0);
         this.fase = Fase.NORMAL;
@@ -31,15 +31,9 @@ public class Arghon extends Enemigo {
         this.yOrigen = y;
         this.combateActivo = false;
         this.umbralPendiente = 150;
-
-        if (posicionesTeleport == null || posicionesTeleport.isEmpty()) {
-            throw new IllegalArgumentException("Error: posiciones");
-        }
         this.posicionesTeleport = new ArrayList<>();
-        for (Point2D.Double posicion : posicionesTeleport) {
-            if (posicion == null || !Double.isFinite(posicion.x) || !Double.isFinite(posicion.y)) {
-                throw new IllegalArgumentException("Error: coordenadas");
-            }
+
+        for (Point2D.Double posicion : posicionesTeletransporte) {
             this.posicionesTeleport.add(new Point2D.Double(posicion.x, posicion.y));
         }
     }
@@ -120,7 +114,7 @@ public class Arghon extends Enemigo {
 
     @Override
     public void actualizar(double dt, Jugador jugador, Nivel nivel) {
-        if (!Double.isFinite(dt) || dt <= 0.0 || !combateActivo || estaDerrotado()) {
+        if (!combateActivo) {
             return;
         }
         double multiplicadorVelocidad;
@@ -130,9 +124,7 @@ public class Arghon extends Enemigo {
             multiplicadorVelocidad = 1.0;
         }
         actualizarCooldown(dt * multiplicadorVelocidad);
-        if (puedeAtacar()) {
-            atacar(jugador, nivel);
-        }
+        atacar(jugador, nivel);
     }
 
     @Override

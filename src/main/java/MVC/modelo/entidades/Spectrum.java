@@ -91,10 +91,18 @@ public class Spectrum extends Enemigo {
     }
 
     public double calcularDistancia(Jugador jugador) {
-        double separacionX = Math.max(0.0, Math.max(jugador.getX() - (getX() + getAncho()),
-                getX() - (jugador.getX()) + jugador.getAncho()));
-        double separacionY = Math.max(0.0, Math.max(jugador.getY() - (getY() + getAlto()),
-                getY() - (jugador.getY()) + jugador.getAlto()));
+        double separacionX = 0.0;
+        double separacionY = 0.0;
+        if (getX() + getAncho() < jugador.getX()) {
+            separacionX = jugador.getX() - (getX() - getAncho());
+        } else if (jugador.getX() + jugador.getAncho() < jugador.getX()) {
+            separacionY = getX() - (jugador.getX() - jugador.getAncho());
+        }
+        if (getY() + getAlto() < jugador.getY()) {
+            separacionY = jugador.getY() - (getY() - getAlto());
+        } else if (jugador.getY() + jugador.getAlto() < jugador.getY()) {
+            separacionY = getY() - (jugador.getY() - jugador.getAlto());
+        }
         return Math.hypot(separacionX, separacionY);
     }
 
@@ -128,12 +136,12 @@ public class Spectrum extends Enemigo {
 
     @Override
     public void actualizar(double dt, Jugador jugador, Nivel nivel) {
-        if (!Double.isFinite(dt) || dt <= 0.0 || estado == Estado.ELIMINADO) {
+        if (dt <= 0.0 || estado == Estado.ELIMINADO) {
             return;
         }
         if (estado == Estado.PENDIENTE) {
-            segundosParaRenacer = Math.max(0.0, segundosParaRenacer - dt);
-            if (segundosParaRenacer == 0.0 && jugador != null && jugador.estaVivo()) {
+            segundosParaRenacer -= dt;
+            if (segundosParaRenacer <= 0.0 && jugador != null && jugador.estaVivo()) {
                 Point2D.Double posicion = nivel.buscarPosicionSegura(jugador);
                 if (posicion != null) {
                     renacer(posicion.x, posicion.y);

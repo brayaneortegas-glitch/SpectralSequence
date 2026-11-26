@@ -100,19 +100,15 @@ public class Jugador extends Personaje {
 
     @Override
     public boolean recibirDanio(int cantidad) {
-        if (cantidad <= 0) {
+        if (cantidad <= 0 || estaMuerto() || poderActivo || invulnerabilidadRestante > 0.0) {
             return false;
-        } else {
-            if (estaMuerto() || poderActivo || invulnerabilidadRestante > 0.0) {
-                return false;
-            }
-
-            boolean daniado = super.recibirDanio(1);
-            if (daniado) {
-                invulnerabilidadRestante = COOLDOWN_INVULNERABILIDAD;
-            }
-            return daniado;
         }
+        boolean daniado = super.recibirDanio(1);
+        if (daniado) {
+            invulnerabilidadRestante = COOLDOWN_INVULNERABILIDAD;
+        }
+        return daniado;
+
 
     }
 
