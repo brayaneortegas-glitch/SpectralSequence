@@ -23,7 +23,6 @@ public class PanelPortada extends JPanel {
 
         });
 
-        timer.start();
 
         setPreferredSize(new Dimension(800, 600));
         setLayout(null);
@@ -39,6 +38,18 @@ public class PanelPortada extends JPanel {
         formulario.getBotonClasificacion().addActionListener(e -> ventana.mostrar(new PanelClasificacion(ventana)));
 
 
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        timer.start();
+    }
+
+    @Override
+    public void removeNotify() {
+        timer.stop();
+        super.removeNotify();
     }
 
     @Override
