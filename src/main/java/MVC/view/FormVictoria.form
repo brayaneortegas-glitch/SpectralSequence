@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MVC.view.FormVictoria">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="d6187" binding="panelContenido" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="0">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="cdada" binding="panelDatos" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="0">
+            <margin top="0" left="104" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="338" height="88"/>
+                <preferred-size width="338" height="88"/>
+                <maximum-size width="338" height="88"/>
+              </grid>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="d6a5b" class="javax.swing.JLabel" binding="valorJugador">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="234" height="22"/>
+                    <preferred-size width="234" height="22"/>
+                    <maximum-size width="234" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-1516348"/>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="JUBEY"/>
+                </properties>
+              </component>
+              <component id="81724" class="javax.swing.JLabel" binding="valorResultado">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="234" height="22"/>
+                    <preferred-size width="234" height="22"/>
+                    <maximum-size width="234" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-999360"/>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="VICTORIA"/>
+                </properties>
+              </component>
+              <component id="eb1ff" class="javax.swing.JLabel" binding="valorPuntaje">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="234" height="22"/>
+                    <preferred-size width="234" height="22"/>
+                    <maximum-size width="234" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-1516348"/>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="00300"/>
+                </properties>
+              </component>
+              <component id="3af93" class="javax.swing.JLabel" binding="valorTiempo">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="234" height="22"/>
+                    <preferred-size width="234" height="22"/>
+                    <maximum-size width="234" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-1516348"/>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="02:47"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="bfe66" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="1" height="60"/>
+                <preferred-size width="1" height="60"/>
+                <maximum-size width="1" height="60"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <grid id="faa49" binding="panelTop" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="338" height="66"/>
+                <preferred-size width="338" height="66"/>
+                <maximum-size width="338" height="66"/>
+              </grid>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="1178e" class="javax.swing.JLabel" binding="nombre1">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="162" height="22"/>
+                    <preferred-size width="162" height="22"/>
+                    <maximum-size width="162" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-999360"/>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="IAN"/>
+                </properties>
+              </component>
+              <component id="10038" class="javax.swing.JLabel" binding="nombre2">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="162" height="22"/>
+                    <preferred-size width="162" height="22"/>
+                    <maximum-size width="162" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-3619636"/>
+                  <text value="BRAYAN"/>
+                </properties>
+              </component>
+              <component id="1a0a8" class="javax.swing.JLabel" binding="nombre3">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="162" height="22"/>
+                    <preferred-size width="162" height="22"/>
+                    <maximum-size width="162" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-3638720"/>
+                  <text value="YAHIR"/>
+                </properties>
+              </component>
+              <component id="9b6a9" class="javax.swing.JLabel" binding="puntos1">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="80" height="22"/>
+                    <preferred-size width="80" height="22"/>
+                    <maximum-size width="80" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-999360"/>
+                  <horizontalAlignment value="4"/>
+                  <text value="00700"/>
+                </properties>
+              </component>
+              <component id="4143e" class="javax.swing.JLabel" binding="puntos2">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="80" height="22"/>
+                    <preferred-size width="80" height="22"/>
+                    <maximum-size width="80" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-3619636"/>
+                  <horizontalAlignment value="4"/>
+                  <text value="00500"/>
+                </properties>
+              </component>
+              <component id="e4df0" class="javax.swing.JLabel" binding="puntos3">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="80" height="22"/>
+                    <preferred-size width="80" height="22"/>
+                    <maximum-size width="80" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-3638720"/>
+                  <horizontalAlignment value="4"/>
+                  <text value="00300"/>
+                </properties>
+              </component>
+              <component id="17cca" class="javax.swing.JLabel" binding="tiempo1">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="96" height="22"/>
+                    <preferred-size width="96" height="22"/>
+                    <maximum-size width="96" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-999360"/>
+                  <horizontalAlignment value="4"/>
+                  <text value="04:12"/>
+                </properties>
+              </component>
+              <component id="f0f09" class="javax.swing.JLabel" binding="tiempo2">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="96" height="22"/>
+                    <preferred-size width="96" height="22"/>
+                    <maximum-size width="96" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-3619636"/>
+                  <horizontalAlignment value="4"/>
+                  <text value="05:40"/>
+                </properties>
+              </component>
+              <component id="2e611" class="javax.swing.JLabel" binding="tiempo3">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="96" height="22"/>
+                    <preferred-size width="96" height="22"/>
+                    <maximum-size width="96" height="22"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-3638720"/>
+                  <horizontalAlignment value="4"/>
+                  <text value="03:05"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="69f5f" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="1" height="24"/>
+                <preferred-size width="1" height="24"/>
+                <maximum-size width="1" height="24"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <grid id="eec38" binding="panelBoton" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="0">
+            <margin top="0" left="16" bottom="0" right="0"/>
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="338" height="40"/>
+                <preferred-size width="338" height="40"/>
+                <maximum-size width="338" height="40"/>
+              </grid>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="42f34" class="javax.swing.JButton" binding="botonVolverInicio">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="280" height="40"/>
+                    <preferred-size width="280" height="40"/>
+                    <maximum-size width="280" height="40"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <icon value="img/menu/GAMEOVER/botones/btn_VOLVER_AL_INICIO_normal.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
