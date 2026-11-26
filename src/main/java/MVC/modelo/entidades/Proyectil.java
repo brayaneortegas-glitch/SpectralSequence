@@ -26,7 +26,7 @@ public class Proyectil extends Entidad {
     }
 
     public void actualizar(double dt) {
-        if (!activo || !Double.isFinite(dt)) {
+        if (!activo) {
             return;
         }
         double nuevaX = getX() + direccionX * velocidad * dt;
@@ -36,7 +36,7 @@ public class Proyectil extends Entidad {
     }
 
     public boolean puedeDaniar(Personaje objetivo) {
-        if (!activo || objetivo == null) return false;
+        if (!activo) return false;
         if (origen == Origen.JUGADOR) {
             return objetivo instanceof Enemigo;
         } else {

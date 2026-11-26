@@ -57,10 +57,9 @@ public class Nivel {
         Point2D.Double inicio = getPosicionCheckpoint(0);
         jugador = new Jugador(inicio.x, inicio.y, 32, 48);
 
-        enemigos.add(crearSpectrum(1, 400, 592));
-        enemigos.add(crearSpectrum(2, 900, 592));
-        enemigos.add(crearSpectrum(3, 1400, 592));
-        enemigos.add(crearSpectrum(4, 1750, 592));
+        //Spectrums llamados
+        enemigos.add(new Spectrum(1, 1, 1.2, 400, 80, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(1, 1, 1.2, 200, 80, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
 
         List<Point2D.Double> destinos = List.of(
                 new Point2D.Double(1900, 560),
@@ -71,14 +70,8 @@ public class Nivel {
         enemigos.add(new Arghon(5, 1, 2.0, 2100, 560, 64, 80, destinos));
 
         /**
-         * DEBO AGREGAR LA VIDA EXTRA, OBJETO+3,NEXUS
+         * DEBO AGREGAR LA VIDA EXTRA, OBJETO+3,EXODO
          */
-    }
-
-    private Spectrum crearSpectrum(int id, double x, double y) {
-        return new Spectrum(id, 1, 1.2,
-                x, y, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0,
-                300.0, 15.0);
     }
 
     public void actualizar(double dt) {
@@ -99,10 +92,7 @@ public class Nivel {
     }
 
     public void agregarProyectil(Proyectil proyectil) {
-        if (proyectil != null && proyectil.estaActivo() &&
-                !proyectiles.contains(proyectil)) {
-            proyectiles.add(proyectil);
-        }
+        proyectiles.add(proyectil);
     }
 
     public void eliminarProyectilesInactivos() {
@@ -113,8 +103,7 @@ public class Nivel {
         }
     }
 
-    public void reiniciarDesdeCheckpoint(int numero) {
-        getPosicionCheckpoint(numero);
+    public void reiniciarCheckpoint(int numero) {
         proyectiles.clear();
         for (Enemigo enemigo : enemigos) {
             if (enemigo instanceof Arghon arghon) {
@@ -136,28 +125,27 @@ public class Nivel {
     }
 
     public Point2D.Double buscarPosicionSegura(Jugador jugador) {
-        for (Plataforma plataforma : plataformas) {
-            double x = plataforma.getX() + 10;
-            double y = plataforma.getY() - ALTO_SPECTRUM;
-            Rectangle2D.Double area = new Rectangle2D.Double(x, y, ANCHO_SPECTRUM, ALTO_SPECTRUM);
-            if (!area.intersects(jugador.obtenerLimites())) {
-                return new Point2D.Double(x, y);
-            }
+        Rectangle2D ian = jugador.obtenerLimites();
+        double y = plataformas.get(0).getY() - ALTO_SPECTRUM;
+        double der = ian.getMaxX() + 100;
+        double izq = ian.getMinX() - 100 - ANCHO_SPECTRUM;
+        if (esZonaLibre(der, y)) {
+            return new Point2D.Double(der, y);
+        }
+        if (esZonaLibre(izq, y)) {
+            return new Point2D.Double(izq, y);
         }
         return null;
     }
 
-    private boolean esZonaLibre(Rectangle2D.Double area, Jugador jugador) {
-        if (area.intersects(jugador.obtenerLimites())) {
+    private boolean esZonaLibre(double x, double y) {
+        if (x < 0 || x + ANCHO_SPECTRUM > ancho) {
             return false;
         }
+        Rectangle2D area = new Rectangle2D.Double(x, y, ANCHO_SPECTRUM, ALTO_SPECTRUM);
         for (Trampa trampa : trampas) {
             if (area.intersects(trampa.obtenerLimites())) {
                 return false;
-            }
-        }
-        for (Plataforma plataforma : plataformas) {
-            if (area.intersects(plataforma.obtenerLimites())) {
             }
         }
         for (Enemigo enemigo : enemigos) {

@@ -1,5 +1,9 @@
 package MVC.modelo.partida;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Partida {
     private static final int MAX_VIDAS = 3;
     private int segundosJugados = 0;
@@ -9,6 +13,49 @@ public class Partida {
     private int checkpointActual = 0;
     private int vidas = MAX_VIDAS;
     private boolean reaparicionPendiente = false;
+
+    private final String nombreJugador;
+    private final Set<String> eventosPuntuados = new HashSet<>();
+    private int puntaje;
+    private RegistroPartida resultado;
+
+    public Partida() {
+        this("Jugador");
+    }
+
+    public Partida(String nombreJugador) {
+        this.nombreJugador = RegistroPartida.validarNombre(nombreJugador);
+    }
+
+    public String getNombreJugador() {
+        return nombreJugador;
+    }
+
+    public int getPuntaje() {
+        return puntaje;
+    }
+
+    public boolean agregarPuntos(String evento, int cantidad) {
+        if (pausada || estaTerminada() || reaparicionPendiente || evento == null
+                || evento.isBlank() || cantidad <= 0 || cantidad > Integer.MAX_VALUE - puntaje) {
+            return false;
+        }
+        if (!eventosPuntuados.add(evento)) {
+            return false;
+        }
+        puntaje += cantidad;
+        return true;
+    }
+
+    public RegistroPartida crearRegistro() {
+        if (!estaTerminada()) {
+            throw new IllegalStateException("La partida todavía está en curso");
+        }
+        if (resultado == null) {
+            resultado = new RegistroPartida(nombreJugador, puntaje, segundosJugados, victoria, LocalDateTime.now());
+        }
+        return resultado;
+    }
 
     public int getVidas() {
         return vidas;

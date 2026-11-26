@@ -40,9 +40,6 @@ public abstract class Enemigo extends Personaje {
     public void actualizarCooldown(double dt) {
         if (tiempoAtaqueRestante > 0.0) {
             tiempoAtaqueRestante -= dt;
-            if (tiempoAtaqueRestante < 0.0) {
-                tiempoAtaqueRestante = 0.0;
-            }
         }
     }
 
