@@ -25,8 +25,6 @@ public class PanelGameOver extends JPanel {
 
         });
 
-        timer.start();
-
         setPreferredSize(new Dimension(800, 600));
         setLayout(null);
 
@@ -37,6 +35,18 @@ public class PanelGameOver extends JPanel {
 
         formulario.getBotonVolverInicio().addActionListener(e -> ventana.mostrar(new PanelPortada(ventana)));
 
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        timer.start();
+    }
+
+    @Override
+    public void removeNotify() {
+        timer.stop();
+        super.removeNotify();
     }
 
     public void mostrarResultado(String nombre, boolean victoria,int puntaje, int segundos){
