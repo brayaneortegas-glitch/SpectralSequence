@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MVC.vista.FormularioClasificacion">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="10">
+    <margin top="0" left="41" bottom="0" right="9"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="c2979" class="javax.swing.JLabel" binding="nombre1">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="174" height="38"/>
+            <preferred-size width="174" height="38"/>
+            <maximum-size width="174" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-999360"/>
+          <horizontalAlignment value="2"/>
+          <text value="JUBEY"/>
+        </properties>
+      </component>
+      <component id="bf626" class="javax.swing.JLabel" binding="puntos1">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="80" height="38"/>
+            <preferred-size width="80" height="38"/>
+            <maximum-size width="80" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-999360"/>
+          <horizontalAlignment value="4"/>
+          <text value="900"/>
+        </properties>
+      </component>
+      <component id="5dca4" class="javax.swing.JLabel" binding="tiempo1">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="84" height="38"/>
+            <preferred-size width="84" height="38"/>
+            <maximum-size width="84" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-999360"/>
+          <horizontalAlignment value="4"/>
+          <text value="06:15"/>
+        </properties>
+      </component>
+      <component id="4ab6e" class="javax.swing.JLabel" binding="nombre2">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="174" height="38"/>
+            <preferred-size width="174" height="38"/>
+            <maximum-size width="174" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-3619636"/>
+          <horizontalAlignment value="2"/>
+          <text value="BRAYAN"/>
+        </properties>
+      </component>
+      <component id="a1b01" class="javax.swing.JLabel" binding="puntos2">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="80" height="38"/>
+            <preferred-size width="80" height="38"/>
+            <maximum-size width="80" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-3619636"/>
+          <horizontalAlignment value="4"/>
+          <text value="700"/>
+        </properties>
+      </component>
+      <component id="a1b02" class="javax.swing.JLabel" binding="tiempo2">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="84" height="38"/>
+            <preferred-size width="84" height="38"/>
+            <maximum-size width="84" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-3619636"/>
+          <horizontalAlignment value="4"/>
+          <text value="07:02"/>
+        </properties>
+      </component>
+      <component id="a1b03" class="javax.swing.JLabel" binding="nombre3">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="174" height="38"/>
+            <preferred-size width="174" height="38"/>
+            <maximum-size width="174" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-3638720"/>
+          <horizontalAlignment value="2"/>
+          <text value="YAHIR"/>
+        </properties>
+      </component>
+      <component id="a1b04" class="javax.swing.JLabel" binding="puntos3">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="80" height="38"/>
+            <preferred-size width="80" height="38"/>
+            <maximum-size width="80" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-3638720"/>
+          <horizontalAlignment value="4"/>
+          <text value="700"/>
+        </properties>
+      </component>
+      <component id="a1b05" class="javax.swing.JLabel" binding="tiempo3">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="84" height="38"/>
+            <preferred-size width="84" height="38"/>
+            <maximum-size width="84" height="38"/>
+          </grid>
+        </constraints>
+        <properties>
+          <foreground color="-3638720"/>
+          <horizontalAlignment value="4"/>
+          <text value="08:47"/>
+        </properties>
+      </component>
+      <vspacer id="a1b06">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="6efb6" class="javax.swing.JButton" binding="botonVolver">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="200" height="40"/>
+            <preferred-size width="200" height="40"/>
+            <maximum-size width="200" height="40"/>
+          </grid>
+        </constraints>
+        <properties>
+          <icon value="imagenes/menu/CLASIFICACION/botones/boton_VOLVER_normal.png"/>
+          <text value=""/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
