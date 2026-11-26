@@ -1,4 +1,4 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 
@@ -16,7 +16,7 @@ public class FormRanking {
     private JButton botonVolver;
 
 
-    public FormRanking(){
+    public FormRanking() {
 
         panelPrincipal.setOpaque(false);
 
@@ -26,24 +26,17 @@ public class FormRanking {
 
     }
 
-    public JPanel getPanelPrincipal(){
+    public JPanel getPanelPrincipal() {
 
         return panelPrincipal;
 
 
     }
 
-    public JButton getBotonVolver(){
+    public JButton getBotonVolver() {
 
         return botonVolver;
     }
-
-
-
-
-
-
-
 
 
 }

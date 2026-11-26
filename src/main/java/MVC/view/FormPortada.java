@@ -1,4 +1,4 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 
@@ -9,7 +9,7 @@ public class FormPortada {
     private JButton botonInstrucciones;
     private JButton botonSalir;
 
-    public FormPortada(){
+    public FormPortada() {
 
         panelPrincipal.setOpaque(false);
 
@@ -32,45 +32,35 @@ public class FormPortada {
 
     }
 
-    public JPanel getPanelPrincipal(){
+    public JPanel getPanelPrincipal() {
 
         return panelPrincipal;
 
 
     }
 
-    public JButton getBotonNueva(){
+    public JButton getBotonNueva() {
 
         return botonNueva;
     }
 
-    public JButton getBotonInstrucciones(){
+    public JButton getBotonInstrucciones() {
 
         return botonInstrucciones;
 
     }
 
-    public JButton getBotonSalir(){
+    public JButton getBotonSalir() {
 
         return botonSalir;
 
 
     }
 
-    public JButton getBotonRanking(){
+    public JButton getBotonRanking() {
 
         return botonRanking;
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

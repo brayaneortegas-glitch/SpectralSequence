@@ -1,4 +1,4 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,12 +7,12 @@ public class PanelPortada extends JPanel {
 
     private Image[] fondos = new Image[4];
     private int indice = 0;
-    private  Timer timer;
+    private Timer timer;
 
-    public PanelPortada(VentanaPrincipal ventana){
+    public PanelPortada(VentanaPrincipal ventana) {
 
-        for (int i = 0; i < 4; i++){
-            fondos[i]=new ImageIcon(getClass().getResource("/img/menu/PORTADA/Portada_Oscura_fondo_" + (i + 1) + ".png")).getImage();
+        for (int i = 0; i < 4; i++) {
+            fondos[i] = new ImageIcon(getClass().getResource("/img/menu/PORTADA/Portada_Oscura_fondo_" + (i + 1) + ".png")).getImage();
         }
 
         timer = new Timer(160, e -> {
@@ -25,12 +25,12 @@ public class PanelPortada extends JPanel {
 
         timer.start();
 
-        setPreferredSize(new Dimension(800,600));
+        setPreferredSize(new Dimension(800, 600));
         setLayout(null);
 
         FormPortada formulario = new FormPortada();
         JPanel panelFormulario = formulario.getPanelPrincipal();
-        panelFormulario.setBounds(32,364,736,96);
+        panelFormulario.setBounds(32, 364, 736, 96);
         add(panelFormulario);
 
         formulario.getBotonNueva().addActionListener(e -> ventana.mostrar(new PanelNombre(ventana)));
@@ -39,15 +39,13 @@ public class PanelPortada extends JPanel {
         formulario.getBotonRanking().addActionListener(e -> ventana.mostrar(new PanelRanking(ventana)));
 
 
-
-
     }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
 
         super.paintComponent(g);
-        g.drawImage(fondos[indice],0,0,this);
+        g.drawImage(fondos[indice], 0, 0, this);
 
 
     }

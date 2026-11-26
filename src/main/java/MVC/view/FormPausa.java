@@ -1,4 +1,4 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 
@@ -11,7 +11,7 @@ public class FormPausa {
     private JButton botonVolverInicio;
 
 
-    public FormPausa(){
+    public FormPausa() {
 
         panelPrincipal.setOpaque(false);
 

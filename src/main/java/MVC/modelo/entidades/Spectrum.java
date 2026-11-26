@@ -134,7 +134,7 @@ public class Spectrum extends Enemigo {
         if (estado == Estado.PENDIENTE) {
             segundosParaRenacer = Math.max(0.0, segundosParaRenacer - dt);
             if (segundosParaRenacer == 0.0 && jugador != null && jugador.estaVivo()) {
-                Point2D.Double posicion = nivel.buscarPosicionSeguraRenacimiento(jugador);
+                Point2D.Double posicion = nivel.buscarPosicionSegura(jugador);
                 if (posicion != null) {
                     renacer(posicion.x, posicion.y);
                 }

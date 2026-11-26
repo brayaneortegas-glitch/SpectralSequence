@@ -1,11 +1,11 @@
-package com.spectralsequence.view;
+package MVC.view;
 
 import javax.swing.*;
 
 public class VentanaPrincipal extends JFrame {
 
 
-    public VentanaPrincipal(){
+    public VentanaPrincipal() {
 
         setTitle("Spectral Sequence");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,7 +16,7 @@ public class VentanaPrincipal extends JFrame {
 
     }
 
-    public void mostrar(JPanel panel){
+    public void mostrar(JPanel panel) {
 
         setContentPane(panel);
         pack();

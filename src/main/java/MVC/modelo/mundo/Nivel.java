@@ -132,38 +132,19 @@ public class Nivel {
                 return checkpoint.obtenerPosicionReaparicion();
             }
         }
-        throw new IllegalArgumentException("No se encontro el checkpoint" + numero);
+        return null;
     }
 
-    public Point2D.Double buscarPosicionSeguraRenacimiento(Jugador jugador) {
-        if (jugador == null || jugador.estaMuerto()) return null;
-        Point2D.Double mejorPosicion = null;
-        double menorDistancia = Double.POSITIVE_INFINITY;
-        double centroJugadorX = jugador.getX() + jugador.getAncho() / 2.0;
-        double centroJugadorY = jugador.getY() + jugador.getAlto() / 2.0;
-
-        for (Plataforma suelo : plataformas) {
-            double y = suelo.getY() - ALTO_SPECTRUM;
-            double inicioX = Math.max(0, suelo.getX());
-            double finX = Math.min(ancho - ANCHO_SPECTRUM, suelo.getX() + suelo.getAncho() - ANCHO_SPECTRUM);
-
-            if (y < 0 || y + ALTO_SPECTRUM > alto) {
-                continue;
-            }
-
-            for (double x = inicioX; x <= finX; x += 1.0) {
-                Rectangle2D.Double area = new Rectangle2D.Double(x, y, ANCHO_SPECTRUM, ALTO_SPECTRUM);
-                if (!esZonaLibre(area, jugador)) {
-                    continue;
-                }
-                double distancia = Point2D.distanceSq(x + ANCHO_SPECTRUM / 2.0, y + ALTO_SPECTRUM / 2.0, centroJugadorX, centroJugadorY);
-                if (distancia < menorDistancia) {
-                    menorDistancia = distancia;
-                    mejorPosicion = new Point2D.Double(x, y);
-                }
+    public Point2D.Double buscarPosicionSegura(Jugador jugador) {
+        for (Plataforma plataforma : plataformas) {
+            double x = plataforma.getX() + 10;
+            double y = plataforma.getY() - ALTO_SPECTRUM;
+            Rectangle2D.Double area = new Rectangle2D.Double(x, y, ANCHO_SPECTRUM, ALTO_SPECTRUM);
+            if (!area.intersects(jugador.obtenerLimites())) {
+                return new Point2D.Double(x, y);
             }
         }
-        return mejorPosicion;
+        return null;
     }
 
     private boolean esZonaLibre(Rectangle2D.Double area, Jugador jugador) {
