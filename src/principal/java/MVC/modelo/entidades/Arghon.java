@@ -21,10 +21,10 @@ public class Arghon extends Enemigo {
     private final double yOrigen;
     private final List<Point2D.Double> posicionesTeleport;
 
-    public Arghon(int id, int danio, double esperaAtaque,
+    public Arghon(int id, int danio, double cooldownAtaque,
                   double x, double y, int ancho, int alto,
                   List<Point2D.Double> posicionesTeletransporte) {
-        super(id, danio, esperaAtaque, x, y, ancho, alto,
+        super(id, danio, cooldownAtaque, x, y, ancho, alto,
                 SALUD_BASE, 0.0);
         this.fase = Fase.NORMAL;
         this.xOrigen = x;

@@ -11,7 +11,7 @@ public class PuntoControl extends Entidad {
 
 
     public PuntoControl(double x, double y, int ancho, int alto, int numero,
-                      double xReaparicion, double yReaparicion) {
+                        double xReaparicion, double yReaparicion) {
         super(x, y, ancho, alto);
         if (numero < 0 || numero > 2) {
             throw new IllegalArgumentException(

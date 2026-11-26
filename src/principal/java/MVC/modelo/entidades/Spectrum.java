@@ -4,12 +4,13 @@ import MVC.modelo.mundo.Nivel;
 
 import java.awt.geom.Point2D;
 
-public class Espectro extends Enemigo {
+public class Spectrum extends Enemigo {
     public enum Estado {NORMAL, PENDIENTE, RENACIDO, ELIMINADO}
 
     private static final double MULTIPLICADOR_VELOCIDAD = 1.4;
     private static final double TIEMPO_PARA_RENACER = 1.5;
     private static final int SALUD_BASE = 12;
+
     private Estado estado = Estado.NORMAL;
     private final double rangoDeteccion;
     private final double rangoAtaque;
@@ -18,19 +19,16 @@ public class Espectro extends Enemigo {
     private final double xOrigen;
     private final double yOrigen;
 
-
-    public Espectro(int id, int danio, double esperaAtaque, double x, double y,
+    public Spectrum(int id, int danio, double cooldownAtaque, double x, double y,
                     int ancho, int alto, double velocidad, double rangoDeteccion,
                     double rangoAtaque) {
-        super(id, danio, esperaAtaque, x, y, ancho, alto, SALUD_BASE, velocidad);
+        super(id, danio, cooldownAtaque, x, y, ancho, alto, SALUD_BASE, velocidad);
         this.rangoDeteccion = rangoDeteccion;
         this.velocidadRenacido = velocidad * MULTIPLICADOR_VELOCIDAD;
         this.rangoAtaque = rangoAtaque;
-        this.segundosParaRenacer = 0.0;
         this.xOrigen = x;
         this.yOrigen = y;
     }
-
 
     public Estado getEstado() {
         return estado;
@@ -48,36 +46,22 @@ public class Espectro extends Enemigo {
     }
 
     public void perseguir(Jugador jugador, double dt) {
-        if (dt <= 0.0 || !detectar(jugador)) {
+        if (!detectar(jugador)) {
             return;
         }
-        double centroEspectro = getX() + getAncho() / 2.0;
-        double centroJugador = jugador.getX() + jugador.getAncho() / 2.0;
-        double diferenciaX = centroJugador - centroEspectro;
-
+        double diferenciaX = (jugador.getX() + jugador.getAncho() / 2.0) - (getX() + getAncho() / 2.0);
         if (diferenciaX == 0.0) {
             return;
         }
-        if (diferenciaX > 0.0) {
-            setDireccion(1);
-        } else {
-            setDireccion(-1);
-        }
+
+        setDireccion(diferenciaX > 0 ? 1 : -1);
 
         double separacionX = Math.abs(diferenciaX) - (getAncho() + jugador.getAncho()) / 2.0;
-        double distanciaPorRecorrer = Math.max(0.0, separacionX - rangoAtaque);
-        double rapidez;
+        double distanciaRestante = Math.max(0.0, separacionX - rangoAtaque);
+        double rapidez = (estado == Estado.RENACIDO) ? velocidadRenacido : getVelocidad();
 
-        if (estado == Estado.RENACIDO) {
-            rapidez = velocidadRenacido;
-        } else {
-            rapidez = getVelocidad();
-        }
-
-        double desplazamiento = Math.min(rapidez * dt, distanciaPorRecorrer);
-        double nuevaX = getX() + getDireccion() * desplazamiento;
-
-        establecerPosicion(nuevaX, getY());
+        double paso = Math.min(rapidez * dt, distanciaRestante);
+        establecerPosicion(getX() + getDireccion() * paso, getY());
     }
 
     public void renacer(double x, double y) {
@@ -91,19 +75,22 @@ public class Espectro extends Enemigo {
     }
 
     public double calcularDistancia(Jugador jugador) {
-        double separacionX = 0.0;
-        double separacionY = 0.0;
+        double dx = 0.0;
+        double dy = 0.0;
+
         if (getX() + getAncho() < jugador.getX()) {
-            separacionX = jugador.getX() - (getX() - getAncho());
-        } else if (jugador.getX() + jugador.getAncho() < jugador.getX()) {
-            separacionY = getX() - (jugador.getX() - jugador.getAncho());
+            dx = jugador.getX() - (getX() + getAncho());
+        } else if (jugador.getX() + jugador.getAncho() < getX()) {
+            dx = getX() - (jugador.getX() + jugador.getAncho());
         }
+
         if (getY() + getAlto() < jugador.getY()) {
-            separacionY = jugador.getY() - (getY() - getAlto());
-        } else if (jugador.getY() + jugador.getAlto() < jugador.getY()) {
-            separacionY = getY() - (jugador.getY() - jugador.getAlto());
+            dy = jugador.getY() - (getY() + getAlto());
+        } else if (jugador.getY() + jugador.getAlto() < getY()) {
+            dy = getY() - (jugador.getY() + jugador.getAlto());
         }
-        return Math.hypot(separacionX, separacionY);
+
+        return Math.hypot(dx, dy);
     }
 
     public void restablecerTrasMuerteIan() {
@@ -111,7 +98,6 @@ public class Espectro extends Enemigo {
             establecerPosicion(xOrigen, yOrigen);
         }
     }
-
 
     @Override
     public boolean recibirDanio(int cantidad) {
@@ -126,9 +112,9 @@ public class Espectro extends Enemigo {
         if (!estaDisponible() || !puedeAtacar() || jugador == null || jugador.estaMuerto()) {
             return;
         }
-        boolean coincideAltura = getY() < jugador.getY() + jugador.getAlto()
-                && getY() + getAlto() > jugador.getY();
-        if (coincideAltura && calcularDistancia(jugador) <= rangoAtaque) {
+        if (getY() < jugador.getY() + jugador.getAlto()
+                && getY() + getAlto() > jugador.getY()
+                && calcularDistancia(jugador) <= rangoAtaque) {
             jugador.recibirDanio(getDanio());
             reiniciarCooldown();
         }
@@ -136,15 +122,15 @@ public class Espectro extends Enemigo {
 
     @Override
     public void actualizar(double dt, Jugador jugador, Nivel nivel) {
-        if (dt <= 0.0 || estado == Estado.ELIMINADO) {
+        if (estado == Estado.ELIMINADO) {
             return;
         }
         if (estado == Estado.PENDIENTE) {
             segundosParaRenacer -= dt;
             if (segundosParaRenacer <= 0.0 && jugador != null && jugador.estaVivo()) {
-                Point2D.Double posicion = nivel.buscarPosicionSegura(jugador);
-                if (posicion != null) {
-                    renacer(posicion.x, posicion.y);
+                Point2D.Double pos = nivel.buscarPosicionSegura(jugador);
+                if (pos != null) {
+                    renacer(pos.x, pos.y);
                 }
             }
             return;
@@ -168,5 +154,4 @@ public class Espectro extends Enemigo {
             estado = Estado.ELIMINADO;
         }
     }
-
 }

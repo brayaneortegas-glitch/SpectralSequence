@@ -4,7 +4,7 @@ import MVC.modelo.entidades.Arghon;
 import MVC.modelo.entidades.Enemigo;
 import MVC.modelo.entidades.Jugador;
 import MVC.modelo.entidades.Proyectil;
-import MVC.modelo.entidades.Espectro;
+import MVC.modelo.entidades.Spectrum;
 import MVC.modelo.objetos.ObjetoRecogible;
 
 import java.awt.geom.Point2D;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Nivel {
-    private static final int ANCHO_ESPECTRO = 32;
-    private static final int ALTO_ESPECTRO = 48;
+    private static final int ANCHO_SPECTRUM = 32;
+    private static final int ALTO_SPECTRUM = 48;
     private Jugador jugador;
     private final List<Enemigo> enemigos = new ArrayList<>();
     private final List<Proyectil> proyectiles = new ArrayList<>();
@@ -24,7 +24,7 @@ public class Nivel {
     private final List<ObjetoRecogible> objetos = new ArrayList<>();
     private final int ancho = 2400;
     private final int alto = 720;
-    private boolean exodoDisponible;
+    private boolean exodoCreado;
 
     public void cargar() {
         enemigos.clear();
@@ -33,45 +33,34 @@ public class Nivel {
         trampas.clear();
         objetos.clear();
         puntosControl.clear();
-        exodoDisponible = false;
+        exodoCreado = false;
 
-        //por definir las coords
-        //Este es el piso como tal
         plataformas.add(new Plataforma(0, 640, ancho, 80));
         plataformas.add(new Plataforma(350, 520, 180, 20));
         plataformas.add(new Plataforma(850, 500, 200, 20));
         plataformas.add(new Plataforma(1350, 520, 180, 20));
 
-        //se pueden poner aquí plataformas de salto:
-        //plataformas.add(new Plataforma(350, 520, 180, 20));
-        // plataformas.add(new Plataforma(850, 500, 200, 20));
-
-        //LO MISMO CON LAS TRAMPAS, DECIDIR DONDE VAN:
         trampas.add(new Trampa(600, 620, 100, 20));
         trampas.add(new Trampa(1150, 620, 100, 20));
 
-        //CONFIGURACIÓN DE CHECKPointss:
         puntosControl.add(new PuntoControl(80, 580, 30, 60, 0, 80, 592));
         puntosControl.add(new PuntoControl(780, 580, 30, 60, 1, 780, 592));
 
-        Point2D.Double inicio = getPosicionPuntoControl(0);
+        Point2D.Double inicio = getPosicionPuntosControl(0);
         jugador = new Jugador(inicio.x, inicio.y, 32, 48);
 
-        //Espectros llamados
-        enemigos.add(new Espectro(1, 1, 1.2, 400, 80, ANCHO_ESPECTRO, ALTO_ESPECTRO, 100.0, 300.0, 15.0));
-        enemigos.add(new Espectro(1, 1, 1.2, 200, 80, ANCHO_ESPECTRO, ALTO_ESPECTRO, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(1, 1, 1.2, 400, 592, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(2, 1, 1.2, 200, 592, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
 
-        List<Point2D.Double> destinos = List.of(
-                new Point2D.Double(1900, 560),
-                new Point2D.Double(2100, 560),
-                new Point2D.Double(2280, 560)
-        );
+        List<Point2D.Double> destinos = new ArrayList<>();
+        destinos.add(new Point2D.Double(1900, 560));
+        destinos.add(new Point2D.Double(2100, 560));
+        destinos.add(new Point2D.Double(2280, 560));
 
         enemigos.add(new Arghon(5, 1, 2.0, 2100, 560, 64, 80, destinos));
 
-        /**
-         * DEBO AGREGAR LA VIDA EXTRA, OBJETO+3,EXODO
-         */
+        objetos.add(new ObjetoRecogible(500, 608, 32, 32, 1, ObjetoRecogible.Tipo.VIDA));
+        objetos.add(new ObjetoRecogible(1500, 608, 32, 32, 2, ObjetoRecogible.Tipo.VIDA));
     }
 
     public void actualizar(double dt) {
@@ -89,6 +78,27 @@ public class Nivel {
             }
         }
 
+        Arghon arghon = getArghon();
+        if (!exodoCreado && arghon != null && arghon.estaDerrotado()) {
+            double x = arghon.getX() + arghon.getAncho() / 2.0 - 16;
+            double y = plataformas.get(0).getY() - 32;
+            objetos.add(new ObjetoRecogible(x, y, 32, 32, 3, ObjetoRecogible.Tipo.EXODO));
+            exodoCreado = true;
+        }
+    }
+
+    public boolean recogerExodo(ObjetoRecogible objeto) {
+        if (objeto.getTipo() != ObjetoRecogible.Tipo.EXODO) {
+            return false;
+        }
+        if (!objetos.contains(objeto) || !objeto.estaDisponible()) {
+            return false;
+        }
+        Arghon arghon = getArghon();
+        if (arghon == null || !arghon.estaDerrotado() || jugador.estaMuerto()) {
+            return false;
+        }
+        return jugador.obtenerLimites().intersects(objeto.obtenerLimites());
     }
 
     public void agregarProyectil(Proyectil proyectil) {
@@ -104,18 +114,31 @@ public class Nivel {
     }
 
     public void reiniciarPuntoControl(int numero) {
+        Point2D.Double posicion = getPosicionPuntosControl(numero);
+        if (posicion == null) {
+            throw new IllegalArgumentException("No existe el punto de control " + numero);
+        }
+        jugador.reaparecer(posicion.x, posicion.y);
         proyectiles.clear();
         for (Enemigo enemigo : enemigos) {
-            if (enemigo instanceof Arghon arghon) {
+            if (enemigo instanceof Arghon) {
+                Arghon arghon = (Arghon) enemigo;
                 arghon.reiniciarCombate();
-            } else if (enemigo instanceof Espectro spectrum) {
+            } else if (enemigo instanceof Spectrum) {
+                Spectrum spectrum = (Spectrum) enemigo;
                 spectrum.restablecerTrasMuerteIan();
             }
         }
-        exodoDisponible = false;
+
+        for (int i = objetos.size() - 1; i >= 0; i--) {
+            if (objetos.get(i).getTipo() == ObjetoRecogible.Tipo.EXODO) {
+                objetos.remove(i);
+            }
+        }
+        exodoCreado = false;
     }
 
-    private Point2D.Double getPosicionPuntoControl(int numero) {
+    private Point2D.Double getPosicionPuntosControl(int numero) {
         for (PuntoControl puntoControl : puntosControl) {
             if (puntoControl.getNumero() == numero) {
                 return puntoControl.obtenerPosicionReaparicion();
@@ -126,9 +149,9 @@ public class Nivel {
 
     public Point2D.Double buscarPosicionSegura(Jugador jugador) {
         Rectangle2D ian = jugador.obtenerLimites();
-        double y = plataformas.get(0).getY() - ALTO_ESPECTRO;
+        double y = plataformas.get(0).getY() - ALTO_SPECTRUM;
         double der = ian.getMaxX() + 100;
-        double izq = ian.getMinX() - 100 - ANCHO_ESPECTRO;
+        double izq = ian.getMinX() - 100 - ANCHO_SPECTRUM;
         if (esZonaLibre(der, y)) {
             return new Point2D.Double(der, y);
         }
@@ -139,10 +162,10 @@ public class Nivel {
     }
 
     private boolean esZonaLibre(double x, double y) {
-        if (x < 0 || x + ANCHO_ESPECTRO > ancho) {
+        if (x < 0 || x + ANCHO_SPECTRUM > ancho) {
             return false;
         }
-        Rectangle2D area = new Rectangle2D.Double(x, y, ANCHO_ESPECTRO, ALTO_ESPECTRO);
+        Rectangle2D area = new Rectangle2D.Double(x, y, ANCHO_SPECTRUM, ALTO_SPECTRUM);
         for (Trampa trampa : trampas) {
             if (area.intersects(trampa.obtenerLimites())) {
                 return false;
@@ -176,7 +199,7 @@ public class Nivel {
         return proyectiles;
     }
 
-    public List<PuntoControl> obtenerPuntosControl() {
+    public List<PuntoControl> getPuntosControl() {
         return puntosControl;
     }
 
@@ -186,8 +209,8 @@ public class Nivel {
 
     public Arghon getArghon() {
         for (Enemigo enemigo : enemigos) {
-            if (enemigo instanceof Arghon arghon) {
-                return arghon;
+            if (enemigo instanceof Arghon) {
+                return (Arghon) enemigo;
             }
         }
         return null;

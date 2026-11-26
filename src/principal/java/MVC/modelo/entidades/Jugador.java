@@ -8,7 +8,7 @@ public class Jugador extends Personaje {
     private static final int DANIO_BASE = 5;
     private static final int CARGA_MAX = 7;
     private static final double TIEMPO_PODER = 5.0;
-    private static final double ESPERA_INVULNERABILIDAD = 1.5;
+    private static final double COOLDOWN_INVULNERABILIDAD = 1.5;
     private static final double ALTURA_PISTOLA = 0.45;
     private static final double VELOCIDAD_PROYECTIL = 500;
 
@@ -22,21 +22,13 @@ public class Jugador extends Personaje {
 
     public Jugador(double x, double y, int ancho, int alto) {
         super(x, y, ancho, alto, SALUD_BASE, VELOCIDAD_BASE);
-        this.velocidadY = 0.0;
-        this.enSuelo = false;
         this.danioBase = DANIO_BASE;
-        this.cargaPoder = 0;
-        this.poderActivo = false;
-        this.segundosPoder = 0.0;
-        this.invulnerabilidadRestante = 0.0;
-
     }
 
     public void mover(int direccion, double dt) {
         if (direccion == -1 || direccion == 1) {
             setDireccion(direccion);
-            double nuevaX = getX() + (direccion * getVelocidad() * dt);
-            establecerPosicion(nuevaX, getY());
+            establecerPosicion(getX() + direccion * getVelocidad() * dt, getY());
         }
     }
 
@@ -49,8 +41,7 @@ public class Jugador extends Personaje {
 
     public void actualizar(double dt) {
         velocidadY += CAIDA_G * dt;
-        double nuevaY = getY() + (velocidadY * dt);
-        establecerPosicion(getX(), nuevaY);
+        establecerPosicion(getX(), getY() + velocidadY * dt);
         enSuelo = false;
 
         if (poderActivo) {
@@ -62,10 +53,7 @@ public class Jugador extends Personaje {
         }
 
         if (invulnerabilidadRestante > 0.0) {
-            invulnerabilidadRestante -= dt;
-            if (invulnerabilidadRestante < 0.0) {
-                invulnerabilidadRestante = 0.0;
-            }
+            invulnerabilidadRestante = Math.max(0.0, invulnerabilidadRestante - dt);
         }
     }
 
@@ -80,22 +68,13 @@ public class Jugador extends Personaje {
     }
 
     public Proyectil disparar() {
-        double origenX;
-        if (getDireccion() == 1) {
-            origenX = getX() + getAncho();
-        } else {
-            origenX = getX();
-        }
-        double origenY = getY() + (getAlto() * ALTURA_PISTOLA);
+        double origenX = (getDireccion() == 1) ? getX() + getAncho() : getX();
+        double origenY = getY() + getAlto() * ALTURA_PISTOLA;
         return new Proyectil(origenX, origenY, getDireccion(), 0.0, VELOCIDAD_PROYECTIL, getDanioActual(), Proyectil.Origen.JUGADOR);
     }
 
     public int getDanioActual() {
-        if (poderActivo) {
-            return danioBase * 2;
-        } else {
-            return danioBase;
-        }
+        return poderActivo ? danioBase * 2 : danioBase;
     }
 
     @Override
@@ -103,17 +82,13 @@ public class Jugador extends Personaje {
         if (cantidad <= 0 || estaMuerto() || poderActivo || invulnerabilidadRestante > 0.0) {
             return false;
         }
-        boolean daniado = super.recibirDanio(1);
-        if (daniado) {
-            invulnerabilidadRestante = ESPERA_INVULNERABILIDAD;
-        }
-        return daniado;
-
-
+        super.recibirDanio(1);
+        invulnerabilidadRestante = COOLDOWN_INVULNERABILIDAD;
+        return true;
     }
 
     public void registrarImpactoValido() {
-        if ((!poderActivo && cargaPoder < CARGA_MAX)) {
+        if (!poderActivo && cargaPoder < CARGA_MAX) {
             cargaPoder++;
         }
     }
@@ -164,9 +139,5 @@ public class Jugador extends Personaje {
         segundosPoder = 0.0;
         cargaPoder = 0;
         invulnerabilidadRestante = 0.0;
-
-
     }
-
-
 }

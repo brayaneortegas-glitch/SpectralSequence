@@ -5,10 +5,8 @@ import MVC.modelo.entidades.Entidad;
 public class ObjetoRecogible extends Entidad {
     public enum Tipo {
         VIDA,
-        NEXO
+        EXODO
     }
-
-
 
     private final int id;
     private final Tipo tipo;
