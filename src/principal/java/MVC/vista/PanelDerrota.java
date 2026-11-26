@@ -3,14 +3,14 @@ package MVC.vista;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelFinPartida extends JPanel {
+public class PanelDerrota extends JPanel {
 
     private Image[] fondos = new Image[4];
     private int indice = 0;
     private Timer timer;
-    private FormularioFinPartida formulario;
+    private FormularioDerrota formulario;
 
-    public PanelFinPartida(VentanaPrincipal ventana) {
+    public PanelDerrota(VentanaPrincipal ventana) {
 
         for (int i = 0; i < 4; i++) {
             fondos[i] = new ImageIcon(getClass().getResource("/imagenes/menu/FIN_PARTIDA/Fin_partida_fondo_" + (i + 1) + ".png")).getImage();
@@ -28,7 +28,7 @@ public class PanelFinPartida extends JPanel {
         setPreferredSize(new Dimension(800, 600));
         setLayout(null);
 
-        formulario = new FormularioFinPartida();
+        formulario = new FormularioDerrota();
         JPanel panelFormulario = formulario.getPanelPrincipal();
         panelFormulario.setBounds(244, 204, 338, 278);
         add(panelFormulario);
@@ -49,23 +49,11 @@ public class PanelFinPartida extends JPanel {
         super.removeNotify();
     }
 
-    public void mostrarResultado(String nombre, boolean victoria,int puntaje, int segundos){
-
-        String resultado;
-
-        if (victoria){
-
-            resultado = "VICTORIA";
-
-        }else {
-
-            resultado = "DERROTA";
-        }
-
+    public void mostrarDerrota(String nombre, int puntaje, int segundos) {
         String puntajeTexto = String.format("%05d", puntaje);
         String tiempoTexto = String.format("%02d:%02d", segundos/60, segundos % 60);
 
-        formulario.setDatos(nombre, resultado,puntajeTexto,tiempoTexto);
+        formulario.setDatos(nombre, "DERROTA", puntajeTexto, tiempoTexto);
 
 
     }

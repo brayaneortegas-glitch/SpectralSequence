@@ -3,7 +3,8 @@ package MVC.controlador;
 import MVC.modelo.partida.GestorPartidas;
 import MVC.modelo.partida.Partida;
 import MVC.modelo.partida.RegistroPartida;
-import MVC.vista.PanelFinPartida;
+import MVC.vista.PanelDerrota;
+import MVC.vista.VentanaPrincipal;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,9 +28,13 @@ public class ControladorJuego {
         return resultadoGuardado;
     }
 
-    public void finalizarPartida(PanelFinPartida panel) throws IOException {
+    public PanelDerrota crearPanelDerrota(VentanaPrincipal ventana) throws IOException {
         RegistroPartida resultado = finalizarPartida();
-        panel.mostrarResultado(resultado.nombre(), resultado.victoria(), resultado.puntaje(), resultado.segundos());
+        if (resultado.victoria()) {
+            return null;
+        }
+        PanelDerrota panel = new PanelDerrota(ventana);
+        panel.mostrarDerrota(resultado.nombre(), resultado.puntaje(), resultado.segundos());
 
         List<RegistroPartida> mejores = obtenerTresMejores();
         for (int fila = 1; fila <= 3; fila++) {
@@ -40,6 +45,7 @@ public class ControladorJuego {
                 panel.limpiarFilaClasificacion(fila);
             }
         }
+        return panel;
     }
 
     public List<RegistroPartida> obtenerTresMejores() {

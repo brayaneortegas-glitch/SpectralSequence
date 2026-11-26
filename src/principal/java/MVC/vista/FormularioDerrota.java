@@ -2,7 +2,7 @@ package MVC.vista;
 
 import javax.swing.*;
 
-public class FormularioFinPartida {
+public class FormularioDerrota {
     private JPanel panelPrincipal;
     private JPanel panelDatos;
     private JLabel valorJugador;
@@ -23,7 +23,7 @@ public class FormularioFinPartida {
     private JButton botonVolverInicio;
 
 
-    public FormularioFinPartida() {
+    public FormularioDerrota() {
 
         panelPrincipal.setOpaque(false);
 

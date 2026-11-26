@@ -3,7 +3,7 @@ package MVC;
 import MVC.controlador.ControladorJuego;
 import MVC.modelo.partida.GestorPartidas;
 import MVC.modelo.partida.Partida;
-import MVC.vista.PanelFinPartida;
+import MVC.vista.PanelDerrota;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,13 +53,17 @@ public class PruebaFinPartida {
         }
 
         ControladorJuego controlador = new ControladorJuego(partida, gestor);
-        PanelFinPartida panel = new PanelFinPartida(null);
-        controlador.finalizarPartida(panel);
-        controlador.finalizarPartida(panel);
+        PanelDerrota panel = controlador.crearPanelDerrota(null);
+        controlador.finalizarPartida();
+        if (victoria) {
+            if (panel != null) {
+                throw new AssertionError("Una victoria abrió el panel de derrota");
+            }
+            return;
+        }
         List<String> etiquetas = new ArrayList<>();
         leerEtiquetas(panel, etiquetas);
-        List<String> esperadas = List.of(nombre, victoria ? "VICTORIA" : "DERROTA",
-                victoria ? "00300" : "00450", victoria ? "01:05" : "00:27", "",
+        List<String> esperadas = List.of(nombre, "DERROTA", "00450", "00:27", "",
                 "Yahir", "", "", "00300", "", "", "01:05", "", "", "");
         // El formulario también tiene separadores decorativos con texto vacío.
         if (!etiquetas.equals(esperadas)) {

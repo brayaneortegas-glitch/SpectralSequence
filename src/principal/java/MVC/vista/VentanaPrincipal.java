@@ -20,9 +20,10 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void mostrarFinPartida(ControladorJuego controlador) throws IOException {
-        PanelFinPartida panel = new PanelFinPartida(this);
-        controlador.finalizarPartida(panel);
-        mostrar(panel);
+        PanelDerrota panel = controlador.crearPanelDerrota(this);
+        if (panel != null) {
+            mostrar(panel);
+        }
     }
 
     public void mostrar(JPanel panel) {
