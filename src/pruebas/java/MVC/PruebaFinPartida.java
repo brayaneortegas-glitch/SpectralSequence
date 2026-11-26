@@ -4,6 +4,9 @@ import MVC.controlador.ControladorJuego;
 import MVC.modelo.partida.GestorPartidas;
 import MVC.modelo.partida.Partida;
 import MVC.vista.PanelDerrota;
+import MVC.vista.PanelVictoria;
+import MVC.vista.PanelPortada;
+import MVC.vista.VentanaPrincipal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +18,19 @@ import java.util.List;
 
 public class PruebaFinPartida {
     public static void main(String[] args) throws Exception {
+        boolean automatico = args.length > 0 && args[0].equals("--automatico");
         Path historial = Files.createTempFile("prueba-fin-partida-", ".csv");
         try {
             SwingUtilities.invokeAndWait(() -> {
                 try {
                     GestorPartidas gestor = new GestorPartidas(historial);
-                    probar(gestor, true);
-                    probar(gestor, false);
+                    VentanaPrincipal ventana = GraphicsEnvironment.isHeadless() ? null : new VentanaPrincipal();
+                    try {
+                        probar(gestor, true, ventana, automatico);
+                        probar(gestor, false, ventana, automatico);
+                    } finally {
+                        if (ventana != null) ventana.dispose();
+                    }
                     gestor.cargar();
                     if (gestor.getHistorial().size() != 2) {
                         throw new AssertionError("El historial debe contener dos partidas");
@@ -36,7 +45,7 @@ public class PruebaFinPartida {
         }
     }
 
-    private static void probar(GestorPartidas gestor, boolean victoria) throws IOException {
+    private static void probar(GestorPartidas gestor, boolean victoria, VentanaPrincipal ventana, boolean automatico) throws IOException {
         String nombre = victoria ? "Yahir" : "Luis";
         Partida partida = new Partida(nombre);
         partida.agregarPuntos("objeto", victoria ? 300 : 450);
@@ -53,27 +62,37 @@ public class PruebaFinPartida {
         }
 
         ControladorJuego controlador = new ControladorJuego(partida, gestor);
-        PanelDerrota panel = controlador.crearPanelDerrota(null);
+        JPanel panel;
+        if (ventana == null) {
+            panel = controlador.crearPanelResultado(null);
+        } else {
+            ventana.mostrarFinPartida(controlador);
+            ventana.setVisible(true);
+            panel = (JPanel) ventana.getContentPane();
+        }
         controlador.finalizarPartida();
-        if (victoria) {
-            if (panel != null) {
-                throw new AssertionError("Una victoria abrió el panel de derrota");
-            }
-            return;
+        if (victoria && !(panel instanceof PanelVictoria) || !victoria && !(panel instanceof PanelDerrota)) {
+            throw new AssertionError("Pantalla incorrecta para " + nombre);
         }
         List<String> etiquetas = new ArrayList<>();
         leerEtiquetas(panel, etiquetas);
-        List<String> esperadas = List.of(nombre, "DERROTA", "00450", "00:27", "",
+        List<String> esperadas = List.of(nombre, victoria ? "VICTORIA" : "DERROTA",
+                victoria ? "00300" : "00450", victoria ? "01:05" : "00:27", "",
                 "Yahir", "", "", "00300", "", "", "01:05", "", "", "");
         // El formulario también tiene separadores decorativos con texto vacío.
         if (!etiquetas.equals(esperadas)) {
             throw new AssertionError("Datos inesperados en pantalla: " + etiquetas);
         }
 
-        if (!GraphicsEnvironment.isHeadless()) {
-            // En esta prueba se avanza con Aceptar, sin regresar al menú del juego.
-            desactivarBotones(panel);
-            JOptionPane.showMessageDialog(null, panel, "Prueba de " + nombre, JOptionPane.PLAIN_MESSAGE);
+        if (ventana != null) {
+            if (!automatico) {
+                JOptionPane.showMessageDialog(ventana, "Revisa el resultado de " + nombre
+                    + ". Al aceptar se probará el botón de volver al inicio.");
+            }
+            pulsarBotonVolver(panel);
+            if (!(ventana.getContentPane() instanceof PanelPortada)) {
+                throw new AssertionError("El botón no volvió a la portada");
+            }
         }
     }
 
@@ -87,12 +106,12 @@ public class PruebaFinPartida {
         }
     }
 
-    private static void desactivarBotones(Container panel) {
+    private static void pulsarBotonVolver(Container panel) {
         for (Component componente : panel.getComponents()) {
             if (componente instanceof JButton boton) {
-                boton.setEnabled(false);
+                boton.doClick();
             } else if (componente instanceof Container hijo) {
-                desactivarBotones(hijo);
+                pulsarBotonVolver(hijo);
             }
         }
     }

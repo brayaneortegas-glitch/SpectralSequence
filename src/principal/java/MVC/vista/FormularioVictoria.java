@@ -1,15 +1,15 @@
-package MVC.view;
+package MVC.vista;
 
 import javax.swing.*;
 
-public class FormVictoria {
+public class FormularioVictoria {
     private JPanel panelPrincipal;
     private JPanel panelDatos;
     private JLabel valorJugador;
     private JLabel valorResultado;
     private JLabel valorPuntaje;
     private JLabel valorTiempo;
-    private JPanel panelTop;
+    private JPanel panelClasificacion;
     private JLabel nombre1;
     private JLabel nombre2;
     private JLabel nombre3;
@@ -25,7 +25,7 @@ public class FormVictoria {
 
 
 
-    public FormVictoria(){
+    public FormularioVictoria(){
 
         panelPrincipal.setOpaque(false);
 
@@ -33,7 +33,7 @@ public class FormVictoria {
 
         panelDatos.setOpaque(false);
 
-        panelTop.setOpaque(false);
+        panelClasificacion.setOpaque(false);
 
         panelContenido.setOpaque(false);
 
@@ -66,7 +66,7 @@ public class FormVictoria {
 
     }
 
-    public void setFilaTop(int fila, String nombre, String puntos, String tiempo){
+    public void setFilaClasificacion(int fila, String nombre, String puntos, String tiempo){
 
         if (fila == 1){
 

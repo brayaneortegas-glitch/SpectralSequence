@@ -3,7 +3,7 @@ package MVC.vista;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelDerrota extends JPanel {
+public class PanelDerrota extends PanelResultado {
 
     private Image[] fondos = new Image[4];
     private int indice = 0;
@@ -49,7 +49,8 @@ public class PanelDerrota extends JPanel {
         super.removeNotify();
     }
 
-    public void mostrarDerrota(String nombre, int puntaje, int segundos) {
+    @Override
+    public void mostrarResultado(String nombre, int puntaje, int segundos) {
         String puntajeTexto = String.format("%05d", puntaje);
         String tiempoTexto = String.format("%02d:%02d", segundos/60, segundos % 60);
 
@@ -58,6 +59,7 @@ public class PanelDerrota extends JPanel {
 
     }
 
+    @Override
     public void mostrarFilaClasificacion(int fila, String nombre, int puntaje, int segundos){
 
         String puntajeTexto = String.format("%05d", puntaje);
@@ -67,6 +69,7 @@ public class PanelDerrota extends JPanel {
 
     }
 
+    @Override
     public void limpiarFilaClasificacion(int fila){
 
         formulario.ponerFilaClasificacion(fila,"","","");
