@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 
-public class GameControllerTest {
+public class PruebaControladorJuego {
     public static void main(String[] args) throws Exception {
         comprobarTiempoYSalud();
         comprobarCheckpointsYDerrota();
@@ -35,7 +35,7 @@ public class GameControllerTest {
 
     private static void comprobarTiempoYSalud() throws Exception {
         Partida partida = new Partida();
-        GameController controlador = new GameController(partida, crearGestor());
+        ControladorJuego controlador = new ControladorJuego(partida, crearGestor());
         controlador.iniciar();
         Nivel nivel = controlador.getNivel();
         nivel.getEnemigos().clear();
@@ -59,14 +59,14 @@ public class GameControllerTest {
     private static void comprobarCheckpointsYDerrota() throws Exception {
         Partida partida = new Partida();
         GestorPartidas gestor = crearGestor();
-        GameController controlador = new GameController(partida, gestor);
+        ControladorJuego controlador = new ControladorJuego(partida, gestor);
         controlador.iniciar();
         Nivel nivel = controlador.getNivel();
         Spectrum spectrum = (Spectrum) nivel.getEnemigos().get(0);
         spectrum.recibirDanio(5);
         nivel.getJugador().establecerPosicion(780, 592);
         controlador.actualizar(0.01);
-        comprobar(partida.getCheckpointActual() == 1, "Activar checkpoint por contacto");
+        comprobar(partida.getPuntoControlActual() == 1, "Activar checkpoint por contacto");
         nivel.getJugador().establecerPosicion(600, 592);
         controlador.actualizar(0.01);
         comprobar(partida.getVidas() == 2 && nivel.getJugador().getSalud() == 7,
@@ -88,7 +88,7 @@ public class GameControllerTest {
 
     private static void comprobarImpactos() throws Exception {
         Partida partida = new Partida();
-        GameController controlador = new GameController(partida, crearGestor());
+        ControladorJuego controlador = new ControladorJuego(partida, crearGestor());
         controlador.iniciar();
         Nivel nivel = controlador.getNivel();
         Spectrum spectrum = (Spectrum) nivel.getEnemigos().get(0);
@@ -104,7 +104,7 @@ public class GameControllerTest {
     private static void comprobarVictoriaYRanking() throws Exception {
         Partida partida = new Partida("Brayan");
         GestorPartidas gestor = crearGestor();
-        GameController controlador = new GameController(partida, gestor);
+        ControladorJuego controlador = new ControladorJuego(partida, gestor);
         controlador.iniciar();
         controlador.agregarRecompensaFinal("final-prueba", 125);
         controlador.agregarRecompensaFinal("bonus-prueba", 25);
@@ -130,7 +130,7 @@ public class GameControllerTest {
         Path archivo = Files.createTempDirectory("spectral-ranking-").resolve("historial.csv");
         GestorPartidas escritor = new GestorPartidas(archivo);
         escritor.guardar(new RegistroPartida("Ana", 10, 20, true, LocalDateTime.now()));
-        GameController lector = new GameController(new Partida(), new GestorPartidas(archivo));
-        comprobar(lector.getTop3().size() == 1, "Cargar ranking antes de consultarlo al iniciar");
+        ControladorJuego lector = new ControladorJuego(new Partida(), new GestorPartidas(archivo));
+        comprobar(lector.obtenerTresMejores().size() == 1, "Cargar ranking antes de consultarlo al iniciar");
     }
 }
