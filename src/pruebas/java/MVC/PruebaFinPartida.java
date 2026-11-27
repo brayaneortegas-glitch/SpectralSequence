@@ -64,7 +64,7 @@ public class PruebaFinPartida {
         ControladorJuego controlador = new ControladorJuego(partida, gestor);
         JPanel panel;
         if (ventana == null) {
-            panel = controlador.crearPanelResultado(null);
+            panel = VentanaPrincipal.crearPanelResultado(null, controlador.finalizarPartida(), controlador.obtenerTresMejores());
         } else {
             ventana.mostrarFinPartida(controlador);
             ventana.setVisible(true);

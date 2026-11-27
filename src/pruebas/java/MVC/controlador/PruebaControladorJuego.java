@@ -43,10 +43,10 @@ public class PruebaControladorJuego {
         controlador.actualizar(0.25);
         controlador.actualizar(0.25);
         comprobar(partida.getSegundosJugados() == 0, "No contar un segundo por frame");
-        partida.setPausada(true);
+        controlador.alternarPausa();
         controlador.actualizar(5);
         comprobar(partida.getSegundosJugados() == 0, "La pausa no cuenta");
-        partida.setPausada(false);
+        controlador.alternarPausa();
         controlador.actualizar(0.5);
         comprobar(partida.getSegundosJugados() == 1, "Conservar fracciones de segundo");
         comprobar(nivel.getJugador().getY() == 592, "El jugador sigue sobre el piso");

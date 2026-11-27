@@ -18,7 +18,7 @@ public class ControladorEntrada extends KeyAdapter {
         int tecla = evento.getKeyCode();
         if (!pulsadas.add(tecla)) return;
         switch (tecla) {
-            case KeyEvent.VK_ESCAPE -> juego.getPartida().setPausada(!juego.getPartida().estaPausada());
+            case KeyEvent.VK_ESCAPE -> juego.alternarPausa();
             case KeyEvent.VK_SPACE, KeyEvent.VK_W -> juego.saltar();
             case KeyEvent.VK_J -> juego.disparar();
             case KeyEvent.VK_K -> juego.activarPoder();
