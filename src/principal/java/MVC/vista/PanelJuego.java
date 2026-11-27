@@ -72,8 +72,7 @@ public class PanelJuego extends JPanel {
         dibujarCapa(g, ruinas, 0.6);
         Graphics mundo = g.create();
         mundo.translate(-camaraX, 600 - nivel.getAlto());
-        mundo.drawImage(plataformas, 0,0,4000,600,this);
-        //for (Plataforma plataforma : nivel.getPlataformas()) rectangulo(mundo, plataforma, Color.DARK_GRAY);
+        mundo.drawImage(plataformas, 0, 0, nivel.getAncho(), nivel.getAlto(), this);
 
         for (Trampa trampa : nivel.getTrampas()) rectangulo(mundo, trampa, Color.RED);
         for (PuntoControl punto : nivel.getPuntosControl()) {

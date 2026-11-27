@@ -1,5 +1,7 @@
 package MVC.modelo.entidades;
 
+import java.awt.geom.Rectangle2D;
+
 public abstract class Personaje extends Entidad {
     private int saludActual;
     private int saludMaxima;
@@ -16,6 +18,11 @@ public abstract class Personaje extends Entidad {
 
     public boolean estaVivo() {
         return saludActual > 0;
+    }
+
+    // El area que recibe disparos puede ser menor que la celda del sprite.
+    public Rectangle2D obtenerLimitesImpacto() {
+        return obtenerLimites();
     }
 
     public boolean recibirDanio(int cantidad) {

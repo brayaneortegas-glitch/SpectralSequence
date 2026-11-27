@@ -13,8 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Nivel {
-    private static final int ANCHO_SPECTRUM = 32;
-    private static final int ALTO_SPECTRUM = 48;
+    private static final int ANCHO_SPECTRUM = 70;
+    private static final int ALTO_SPECTRUM = 100;
+    private static final int ANCHO_ARGHON = 160;
+    private static final int ALTO_ARGHON = 200;
+    private static final int ANCHO_IAN = 70;
+    private static final int ALTO_IAN = 90;
+    // Interior de la arena final, entre sus dos muros.
+    private static final int INICIO_ARENA_ARGHON = 3232;
+    private static final int FIN_ARENA_ARGHON = 3968;
+    private static final int SUELO_ARENA_ARGHON = 536;
     private Jugador jugador;
     private final List<Enemigo> enemigos = new ArrayList<>();
     private final List<Proyectil> proyectiles = new ArrayList<>();
@@ -36,33 +44,61 @@ public class Nivel {
         puntosControl.clear();
         exodoCreado = false;
 
+        // Nivel_plataformas.png mide 2000 x 300 y se dibuja a 4000 x 600.
+        // Coordenadas del mundo: multiplicar por 2 las medidas de la imagen.
+        // Suelo (los huecos de los pinchos quedan libres).
         plataformas.add(new Plataforma(0, 536, 736, 64));
         plataformas.add(new Plataforma(832, 536, 224, 64));
         plataformas.add(new Plataforma(1056, 472, 256, 128));
         plataformas.add(new Plataforma(2016, 536, 864, 64));
-        plataformas.add(new Plataforma(2944, 536, 256, 64));
-        plataformas.add(new Plataforma(3200, 536, 800, 64));
+        plataformas.add(new Plataforma(2944, 536, 1056, 64));
+
+        // Plataformas elevadas, de izquierda a derecha.
+        plataformas.add(new Plataforma(160, 440, 192, 16));
+        plataformas.add(new Plataforma(416, 344, 224, 16));
+        plataformas.add(new Plataforma(896, 376, 128, 16));
+        plataformas.add(new Plataforma(2144, 440, 192, 16));
+        plataformas.add(new Plataforma(2400, 344, 224, 16));
+        plataformas.add(new Plataforma(2688, 440, 160, 16));
+        plataformas.add(new Plataforma(3296, 440, 160, 16));
+        plataformas.add(new Plataforma(3520, 344, 160, 16));
+        plataformas.add(new Plataforma(3744, 440, 160, 16));
+
+        // Piedras para cruzar el foso central.
+        plataformas.add(new Plataforma(1376, 472, 32, 32));
+        plataformas.add(new Plataforma(1472, 408, 32, 32));
+        plataformas.add(new Plataforma(1568, 440, 32, 32));
+        plataformas.add(new Plataforma(1664, 376, 32, 32));
+        plataformas.add(new Plataforma(1760, 440, 32, 32));
+        plataformas.add(new Plataforma(1856, 408, 32, 32));
+        plataformas.add(new Plataforma(1952, 472, 32, 32));
+
+        // Muros de la arena. La entrada deja un paso de 96 px sobre el suelo.
+        plataformas.add(new Plataforma(3200, 0, 32, 440));
+        plataformas.add(new Plataforma(3968, 0, 32, 536));
 
         trampas.add(new Trampa(600, 620, 100, 20));
         trampas.add(new Trampa(1150, 620, 100, 20));
 
-        puntosControl.add(new PuntoControl(64, 472, 32, 64, 0, 64, 488));
-        puntosControl.add(new PuntoControl(1216, 408, 32, 64, 1, 1216, 424));
+        puntosControl.add(new PuntoControl(64, 472, 32, 64, 0, 64, 536 - ALTO_IAN));
+        puntosControl.add(new PuntoControl(1216, 408, 32, 64, 1, 1216, 472 - ALTO_IAN));
 
         Point2D.Double inicio = getPosicionPuntosControl(0);
-        jugador = new Jugador(inicio.x, inicio.y, 32, 48);
+        jugador = new Jugador(inicio.x, inicio.y, ANCHO_IAN, ALTO_IAN);
 
         enemigos.add(new Spectrum(1, 1, 1.2, 576, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
         enemigos.add(new Spectrum(2, 1, 1.2, 960, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
-        enemigos.add(new Spectrum(3,1, 1.2, 2240, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
-        enemigos.add(new Spectrum(4, 1, 1.2, 2496, 296, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0 ));
+        enemigos.add(new Spectrum(3, 1, 1.2, 2240, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(4, 1, 1.2, 2496, 296, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
 
         List<Point2D.Double> destinos = new ArrayList<>();
-        destinos.add(new Point2D.Double(1900, 560));
-        destinos.add(new Point2D.Double(2100, 560));
-        destinos.add(new Point2D.Double(2280, 560));
+        double yArghon = SUELO_ARENA_ARGHON - ALTO_ARGHON;
+        destinos.add(new Point2D.Double(3360, yArghon));
+        destinos.add(new Point2D.Double(3560, yArghon));
+        destinos.add(new Point2D.Double(3760, yArghon));
 
-        enemigos.add(new Arghon(5, 1, 2.0, 2100, 560, 64, 80, destinos));
+        enemigos.add(new Arghon(5, 1, 2.0, 3560, yArghon, ANCHO_ARGHON, ALTO_ARGHON, destinos));
+
 
         objetos.add(new ObjetoRecogible(500, 608, 32, 32, 1, ObjetoRecogible.Tipo.VIDA));
         objetos.add(new ObjetoRecogible(1500, 608, 32, 32, 2, ObjetoRecogible.Tipo.VIDA));
@@ -210,6 +246,16 @@ public class Nivel {
 
     public List<ObjetoRecogible> getObjetoRecogibles() {
         return objetos;
+    }
+
+    public boolean jugadorEstaEnArenaArghon() {
+        if (jugador == null || jugador.estaMuerto()) {
+            return false;
+        }
+        Rectangle2D arena = new Rectangle2D.Double(INICIO_ARENA_ARGHON, 0,
+                FIN_ARENA_ARGHON - INICIO_ARENA_ARGHON, SUELO_ARENA_ARGHON);
+        // Ian debe cruzar por completo la entrada, no basta con acercarse al jefe.
+        return arena.contains(jugador.obtenerLimites());
     }
 
     public Arghon getArghon() {

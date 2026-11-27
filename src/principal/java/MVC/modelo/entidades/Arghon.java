@@ -11,9 +11,13 @@ public class Arghon extends Enemigo {
 
     public enum Fase {NORMAL, FURIA}
 
-    private static final double FURIA_VELOCIDAD = 400.0;
+    private static final double FURIA_VELOCIDAD = 600.0;
     private static final int SALUD_BASE = 200;
     private static final double VELOCIDAD_PROYECTIL = 300.0;
+    private static final int CANTIDAD_PROYECTILES_LLUVIA = 7;
+    private static final double SEPARACION_LLUVIA = 65.0;
+    private static final double ALTURA_LLUVIA = 300.0;
+    private static final double MARGEN_BORDE_LLUVIA = 16.0;
     private Fase fase;
     private boolean combateActivo;
     private int umbralPendiente;
@@ -61,23 +65,11 @@ public class Arghon extends Enemigo {
             setDireccion(-1);
         }
 
-        double origenX = getX();
-        if (getDireccion() == 1) {
-            origenX += getAncho();
-        }
-
-        double origenY = getY() + getAlto() / 2.0;
-        double objetivoX = centroJugadorX;
-        double objetivoY = jugador.getY() + jugador.getAlto() / 2.0;
-        double diferenciaX = objetivoX - origenX;
-        double diferenciaY = objetivoY - origenY;
-        double distancia = Math.hypot(diferenciaX, diferenciaY);
-
-        if (distancia == 0.0) {
-            return;
-        }
-        double direccionX = diferenciaX / distancia;
-        double direccionY = diferenciaY / distancia;
+        double anchoLluvia = (CANTIDAD_PROYECTILES_LLUVIA - 1) * SEPARACION_LLUVIA;
+        double inicioX = Math.max(MARGEN_BORDE_LLUVIA,
+                Math.min(centroJugadorX - anchoLluvia / 2.0,
+                        nivel.getAncho() - MARGEN_BORDE_LLUVIA - anchoLluvia));
+        double origenY = Math.max(0.0, jugador.getY() - ALTURA_LLUVIA);
 
         double velocidadProyectil;
         if (fase == Fase.FURIA) {
@@ -85,10 +77,14 @@ public class Arghon extends Enemigo {
         } else {
             velocidadProyectil = VELOCIDAD_PROYECTIL;
         }
-        Proyectil proyectil = new Proyectil(origenX, origenY,
-                direccionX, direccionY, velocidadProyectil,
-                getDanio(), Proyectil.Origen.ENEMIGO);
-        nivel.agregarProyectil(proyectil);
+        // La oleada cae verticalmente; Ian puede moverse entre sus proyectiles.
+        for (int i = 0; i < CANTIDAD_PROYECTILES_LLUVIA; i++) {
+            double origenX = inicioX + i * SEPARACION_LLUVIA;
+            Proyectil proyectil = new Proyectil(origenX, origenY,
+                    0.0, 1.0, velocidadProyectil,
+                    getDanio(), Proyectil.Origen.ENEMIGO);
+            nivel.agregarProyectil(proyectil);
+        }
         reiniciarCooldown();
     }
 
