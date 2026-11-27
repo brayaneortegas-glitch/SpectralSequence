@@ -22,9 +22,10 @@ public class Nivel {
     private final List<Trampa> trampas = new ArrayList<>();
     private final List<PuntoControl> puntosControl = new ArrayList<>();
     private final List<ObjetoRecogible> objetos = new ArrayList<>();
-    private final int ancho = 2400;
-    private final int alto = 720;
+    private final int ancho = 4000;
+    private final int alto = 600;
     private boolean exodoCreado;
+
 
     public void cargar() {
         enemigos.clear();
@@ -35,22 +36,26 @@ public class Nivel {
         puntosControl.clear();
         exodoCreado = false;
 
-        plataformas.add(new Plataforma(0, 640, ancho, 80));
-        plataformas.add(new Plataforma(350, 520, 180, 20));
-        plataformas.add(new Plataforma(850, 500, 200, 20));
-        plataformas.add(new Plataforma(1350, 520, 180, 20));
+        plataformas.add(new Plataforma(0, 536, 736, 64));
+        plataformas.add(new Plataforma(832, 536, 224, 64));
+        plataformas.add(new Plataforma(1056, 472, 256, 128));
+        plataformas.add(new Plataforma(2016, 536, 864, 64));
+        plataformas.add(new Plataforma(2944, 536, 256, 64));
+        plataformas.add(new Plataforma(3200, 536, 800, 64));
 
         trampas.add(new Trampa(600, 620, 100, 20));
         trampas.add(new Trampa(1150, 620, 100, 20));
 
-        puntosControl.add(new PuntoControl(80, 580, 30, 60, 0, 80, 592));
-        puntosControl.add(new PuntoControl(780, 580, 30, 60, 1, 780, 592));
+        puntosControl.add(new PuntoControl(64, 472, 32, 64, 0, 64, 488));
+        puntosControl.add(new PuntoControl(1216, 408, 32, 64, 1, 1216, 424));
 
         Point2D.Double inicio = getPosicionPuntosControl(0);
         jugador = new Jugador(inicio.x, inicio.y, 32, 48);
 
-        enemigos.add(new Spectrum(1, 1, 1.2, 400, 592, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
-        enemigos.add(new Spectrum(2, 1, 1.2, 200, 592, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(1, 1, 1.2, 576, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(2, 1, 1.2, 960, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(3,1, 1.2, 2240, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(4, 1, 1.2, 2496, 296, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0 ));
 
         List<Point2D.Double> destinos = new ArrayList<>();
         destinos.add(new Point2D.Double(1900, 560));
