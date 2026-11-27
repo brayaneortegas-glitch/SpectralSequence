@@ -1,18 +1,10 @@
 package MVC;
 
-import MVC.vista.PanelPortada;
 import MVC.vista.VentanaPrincipal;
+import javax.swing.SwingUtilities;
 
 public class Principal {
-
     public static void main(String[] args) {
-
-        VentanaPrincipal ventana = new VentanaPrincipal();
-        ventana.setVisible(true);
-        ventana.setLocationRelativeTo(null);
-        ventana.mostrar(new PanelPortada(ventana));
-        //ventana.mostrar(new PanelDerrota(ventana));
-        //ventana.mostrar(new PanelPausa(ventana));
-
+        SwingUtilities.invokeLater(() -> new VentanaPrincipal().setVisible(true));
     }
 }
