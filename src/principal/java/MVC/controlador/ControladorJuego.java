@@ -7,6 +7,7 @@ import MVC.modelo.entidades.Spectrum;
 import MVC.modelo.mundo.Impacto;
 import MVC.modelo.mundo.GestorColisiones;
 import MVC.modelo.mundo.Nivel;
+import MVC.modelo.objetos.ObjetoRecogible;
 import MVC.modelo.partida.GestorPartidas;
 import MVC.modelo.partida.Partida;
 import MVC.modelo.partida.RegistroPartida;
@@ -17,6 +18,8 @@ import MVC.vista.VentanaPrincipal;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ControladorJuego {
     private final Partida partida;
@@ -26,6 +29,7 @@ public class ControladorJuego {
     private final GestorColisiones colisiones = new GestorColisiones();
     private double fraccionSegundo;
     private int direccion;
+    private final Map<String, Integer> recompensasFinales = new LinkedHashMap<>();
 
     public ControladorJuego(Partida partida, GestorPartidas gestor) {
         this.partida = partida;
@@ -105,6 +109,25 @@ public class ControladorJuego {
             return;
         }
         partida.activarPuntoControl(colisiones.detectarPuntoControl(nivel));
+        for (ObjetoRecogible objeto : colisiones.detectarObjetos(nivel)) {
+            if (objeto.getTipo() == ObjetoRecogible.Tipo.VIDA && partida.recuperarVida()) {
+                objeto.marcarRecogido();
+            } else if (nivel.recogerExodo(objeto)) {
+                objeto.marcarRecogido();
+                for (var premio : recompensasFinales.entrySet()) {
+                    partida.agregarPuntos(premio.getKey(), premio.getValue());
+                }
+                partida.registrarVictoria();
+                finalizarPartida();
+                return;
+            }
+        }
+    }
+
+    public void agregarRecompensaFinal(String evento, int puntos) {
+        if (evento != null && !evento.isBlank() && puntos > 0) {
+            recompensasFinales.putIfAbsent(evento, puntos);
+        }
     }
 
     public RegistroPartida finalizarPartida() throws IOException {

@@ -18,6 +18,7 @@ public class PruebaControladorJuego {
         comprobarTiempoYSalud();
         comprobarCheckpointsYDerrota();
         comprobarImpactos();
+        comprobarVidaExtra();
         comprobarVictoriaYRanking();
         System.out.println("OK: tiempo, pausa, salud, vidas, checkpoints, Spectrum, impactos, victoria y ranking.");
     }
@@ -99,6 +100,19 @@ public class PruebaControladorJuego {
         nivel.agregarProyectil(new Proyectil(500, 645, 1, 0, 0, 5, Proyectil.Origen.JUGADOR));
         controlador.actualizar(0.01);
         comprobar(nivel.getProyectiles().isEmpty(), "Destruir proyectil contra el piso");
+    }
+
+    private static void comprobarVidaExtra() throws Exception {
+        Partida partida = new Partida();
+        ControladorJuego controlador = new ControladorJuego(partida, crearGestor());
+        controlador.iniciar();
+        Nivel nivel = controlador.getNivel();
+        nivel.getJugador().establecerPosicion(600, 592);
+        controlador.actualizar(0.01);
+        nivel.getJugador().establecerPosicion(500, 592);
+        controlador.actualizar(0.01);
+        comprobar(partida.getVidas() == 3, "Recuperar la vida al tocar el objeto");
+        comprobar(!nivel.getObjetoRecogibles().get(0).estaDisponible(), "Consumir la vida extra");
     }
 
     private static void comprobarVictoriaYRanking() throws Exception {
