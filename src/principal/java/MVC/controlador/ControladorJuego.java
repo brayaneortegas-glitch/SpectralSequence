@@ -1,6 +1,10 @@
 package MVC.controlador;
 
+import MVC.modelo.entidades.Arghon;
 import MVC.modelo.entidades.Jugador;
+import MVC.modelo.entidades.Proyectil;
+import MVC.modelo.entidades.Spectrum;
+import MVC.modelo.mundo.Impacto;
 import MVC.modelo.mundo.GestorColisiones;
 import MVC.modelo.mundo.Nivel;
 import MVC.modelo.partida.GestorPartidas;
@@ -75,8 +79,32 @@ public class ControladorJuego {
         Jugador jugador = nivel.getJugador();
         jugador.mover(direccion, paso);
         jugador.ajustarHorizontal(Math.max(0, Math.min(jugador.getX(), nivel.getAncho() - jugador.getAncho())));
+        Arghon jefe = nivel.getArghon();
+        if (jefe != null && Math.abs(jugador.getX() - jefe.getX()) < 400) jefe.iniciarCombate();
         nivel.actualizar(paso);
         colisiones.validarMundo(nivel);
+        for (Impacto impacto : colisiones.detectarImpactos(nivel)) {
+            Proyectil bala = impacto.getProyectil();
+            if (bala.impactar(impacto.getObjetivo()) && bala.getOrigen() == Proyectil.Origen.JUGADOR) {
+                jugador.registrarImpactoValido();
+                if (impacto.getObjetivo() instanceof Spectrum enemigo && !enemigo.estaVivo()) {
+                    partida.agregarPuntos("spectrum-" + enemigo.getId() + "-" + enemigo.getEstado(), 100);
+                }
+            }
+        }
+        nivel.eliminarProyectilesInactivos();
+        if (colisiones.tocaPinchos(nivel)) jugador.morirPorPinchos();
+        if (jugador.estaMuerto()) {
+            partida.registrarMuerte();
+            if (partida.hayReaparicionPendiente()) {
+                nivel.reiniciarPuntoControl(partida.getPuntoControlActual());
+                partida.confirmarReaparicion();
+            } else {
+                finalizarPartida();
+            }
+            return;
+        }
+        partida.activarPuntoControl(colisiones.detectarPuntoControl(nivel));
     }
 
     public RegistroPartida finalizarPartida() throws IOException {

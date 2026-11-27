@@ -81,7 +81,7 @@ public class PruebaControladorJuego {
             nivel.getJugador().morirPorPinchos();
             controlador.actualizar(0.01);
         }
-        comprobar(partida.estaEnGameOver() && nivel.getJugador().estaMuerto(), "No reaparecer sin vidas");
+        comprobar(partida.estaEnFinPartida() && nivel.getJugador().estaMuerto(), "No reaparecer sin vidas");
         controlador.actualizar(0.01);
         comprobar(gestor.getHistorial().size() == 1, "Guardar la derrota una sola vez");
     }
