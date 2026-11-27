@@ -25,8 +25,10 @@ public class PanelJuego extends JPanel {
     private final Image jefe = imagen("animaciones/arghon-juego/Arghon_reposo.png");
     private final Image vida = imagen("objetos/Vida_extra.png");
     private final Image exodo = imagen("objetos/Nexo.png");
+    private final Indicadores indicadores = new Indicadores();
     private int camaraX;
     private int cuadro;
+
 
     public PanelJuego(ControladorJuego controlador, VentanaPrincipal ventana) {
         this.controlador = controlador;
@@ -96,11 +98,15 @@ public class PanelJuego extends JPanel {
         mundo.dispose();
 
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), 32);
+        //g.fillRect(0, 0, getWidth(), 32);
         g.setColor(Color.WHITE);
-        g.drawString(partida.getNombreJugador() + "     Vidas: " + partida.getVidas() + "     Salud: " + jugador.getSalud()
-                + "     Puntos: " + partida.getPuntaje() + "     Tiempo: " + partida.getSegundosJugados()
-                + " s     Poder: " + jugador.getCargaPoder() + "/7", 14, 21);
+        //g.drawString(partida.getNombreJugador() + "     Vidas: " + partida.getVidas() + "     Salud: " + jugador.getSalud()
+       //         + "     Puntos: " + partida.getPuntaje() + "     Tiempo: " + partida.getSegundosJugados()
+         //       + " s     Poder: " + jugador.getCargaPoder() + "/7", 14, 21);
+
+        indicadores.dibujar(g,jugador.getSalud(), jugador.getCargaPoder(), partida.getVidas());
+        indicadores.dibujarTexto(g, partida.getPuntaje(), partida.getSegundosJugados());
+
         if (partida.estaPausada()) {
             g.setColor(Color.BLACK);
             g.fillRect(275, 260, 250, 45);
