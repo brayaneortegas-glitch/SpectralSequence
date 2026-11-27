@@ -3,6 +3,7 @@ package MVC.modelo.entidades;
 import MVC.modelo.mundo.Nivel;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class Spectrum extends Enemigo {
     public enum Estado {NORMAL, PENDIENTE, RENACIDO, ELIMINADO}
@@ -10,6 +11,11 @@ public class Spectrum extends Enemigo {
     private static final double MULTIPLICADOR_VELOCIDAD = 1.4;
     private static final double TIEMPO_PARA_RENACER = 1.5;
     private static final int SALUD_BASE = 12;
+    // Cuerpo aproximado dentro de cada celda de 48 x 48, sin los margenes y adornos.
+    private static final double IMPACTO_X = 12.0 / 48;
+    private static final double IMPACTO_Y = 2.0 / 48;
+    private static final double IMPACTO_ANCHO = 20.0 / 48;
+    private static final double IMPACTO_ALTO = 42.0 / 48;
 
     private Estado estado = Estado.NORMAL;
     private final double rangoDeteccion;
@@ -32,6 +38,13 @@ public class Spectrum extends Enemigo {
 
     public Estado getEstado() {
         return estado;
+    }
+
+    @Override
+    public Rectangle2D obtenerLimitesImpacto() {
+        return new Rectangle2D.Double(getX() + getAncho() * IMPACTO_X,
+                getY() + getAlto() * IMPACTO_Y,
+                getAncho() * IMPACTO_ANCHO, getAlto() * IMPACTO_ALTO);
     }
 
     public boolean estaDisponible() {

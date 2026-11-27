@@ -4,8 +4,8 @@ import MVC.modelo.entidades.Arghon;
 import MVC.modelo.entidades.Jugador;
 import MVC.modelo.entidades.Proyectil;
 import MVC.modelo.entidades.Spectrum;
-import MVC.modelo.mundo.Impacto;
 import MVC.modelo.mundo.GestorColisiones;
+import MVC.modelo.mundo.Impacto;
 import MVC.modelo.mundo.Nivel;
 import MVC.modelo.objetos.ObjetoRecogible;
 import MVC.modelo.partida.GestorPartidas;
@@ -13,8 +13,8 @@ import MVC.modelo.partida.Partida;
 import MVC.modelo.partida.RegistroPartida;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ControladorJuego {
@@ -86,7 +86,7 @@ public class ControladorJuego {
         jugador.mover(direccion, paso);
         jugador.ajustarHorizontal(Math.max(0, Math.min(jugador.getX(), nivel.getAncho() - jugador.getAncho())));
         Arghon jefe = nivel.getArghon();
-        if (jefe != null && Math.abs(jugador.getX() - jefe.getX()) < 400) jefe.iniciarCombate();
+        if (jefe != null && nivel.jugadorEstaEnArenaArghon()) jefe.iniciarCombate();
         nivel.actualizar(paso);
         colisiones.validarMundo(nivel);
         for (Impacto impacto : colisiones.detectarImpactos(nivel)) {
@@ -94,7 +94,7 @@ public class ControladorJuego {
             if (bala.impactar(impacto.getObjetivo()) && bala.getOrigen() == Proyectil.Origen.JUGADOR) {
                 jugador.registrarImpactoValido();
                 if (impacto.getObjetivo() instanceof Arghon arghon && arghon.estaDerrotado()) {
-                    agregarRecompensaFinal("arghon", 100);
+                    agregarRecompensaFinal("arghon", 1000);
                 }
                 if (impacto.getObjetivo() instanceof Spectrum enemigo && !enemigo.estaVivo()) {
                     partida.agregarPuntos("spectrum-" + enemigo.getId() + "-" + enemigo.getEstado(), 100);

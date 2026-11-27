@@ -1,16 +1,23 @@
 package MVC.modelo.entidades;
 
+import java.awt.geom.Rectangle2D;
+
 public class Jugador extends Personaje {
     private static final int SALUD_BASE = 7;
     private static final double VELOCIDAD_BASE = 220.0;
     private static final double SALTO = -460;
     private static final double CAIDA_G = 980.0;
-    private static final int DANIO_BASE = 5;
+    private static final int DANIO_BASE = 1;
     private static final int CARGA_MAX = 7;
     private static final double TIEMPO_PODER = 5.0;
     private static final double COOLDOWN_INVULNERABILIDAD = 1.5;
     private static final double ALTURA_PISTOLA = 0.45;
     private static final double VELOCIDAD_PROYECTIL = 500;
+    // Cuerpo aproximado en las celdas de Ian (80 x 72), mirando a la derecha.
+    private static final double IMPACTO_X = 14.0 / 80;
+    private static final double IMPACTO_Y = 8.0 / 72;
+    private static final double IMPACTO_ANCHO = 26.0 / 80;
+    private static final double IMPACTO_ALTO = 54.0 / 72;
 
     private double velocidadY;
     private boolean enSuelo;
@@ -68,9 +75,23 @@ public class Jugador extends Personaje {
     }
 
     public Proyectil disparar() {
-        double origenX = (getDireccion() == 1) ? getX() + getAncho() : getX();
+        Rectangle2D cuerpo = obtenerLimitesImpacto();
+        double origenX = (getDireccion() == 1) ? cuerpo.getMaxX() : cuerpo.getMinX();
         double origenY = getY() + getAlto() * ALTURA_PISTOLA;
-        return new Proyectil(origenX, origenY, getDireccion(), 0.0, VELOCIDAD_PROYECTIL, getDanioActual(), Proyectil.Origen.JUGADOR);
+        Proyectil bala = new Proyectil(origenX, origenY, getDireccion(), 0.0,
+                VELOCIDAD_PROYECTIL, getDanioActual(), Proyectil.Origen.JUGADOR);
+        // x/y son la esquina de la bala: centrarla en la mano y sacarla hacia fuera.
+        bala.establecerPosicion(origenX - (getDireccion() < 0 ? bala.getAncho() : 0),
+                origenY - bala.getAlto() / 2.0);
+        return bala;
+    }
+
+    @Override
+    public Rectangle2D obtenerLimitesImpacto() {
+        double inicioX = getDireccion() == 1 ? IMPACTO_X : 1.0 - IMPACTO_X - IMPACTO_ANCHO;
+        return new Rectangle2D.Double(getX() + getAncho() * inicioX,
+                getY() + getAlto() * IMPACTO_Y,
+                getAncho() * IMPACTO_ANCHO, getAlto() * IMPACTO_ALTO);
     }
 
     public int getDanioActual() {
@@ -82,7 +103,7 @@ public class Jugador extends Personaje {
         if (cantidad <= 0 || estaMuerto() || poderActivo || invulnerabilidadRestante > 0.0) {
             return false;
         }
-        super.recibirDanio(1);
+        super.recibirDanio(cantidad);
         invulnerabilidadRestante = COOLDOWN_INVULNERABILIDAD;
         return true;
     }

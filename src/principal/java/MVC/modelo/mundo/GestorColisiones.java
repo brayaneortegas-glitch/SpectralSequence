@@ -79,7 +79,7 @@ public class GestorColisiones {
             Rectangle2D limites = proyectil.obtenerLimites();
             if (proyectil.getOrigen() == Proyectil.Origen.JUGADOR) {
                 for (Enemigo enemigo : nivel.getEnemigos()) {
-                    if (enemigo.estaVivo() && limites.intersects(enemigo.obtenerLimites())) {
+                    if (enemigo.estaVivo() && limites.intersects(enemigo.obtenerLimitesImpacto())) {
                         impactos.add(new Impacto(proyectil, enemigo));
                         break;
                     }
@@ -87,7 +87,7 @@ public class GestorColisiones {
             } else {
                 Jugador jugador = nivel.getJugador();
                 if (jugador != null && jugador.estaVivo()
-                        && limites.intersects(jugador.obtenerLimites())) {
+                        && limites.intersects(jugador.obtenerLimitesImpacto())) {
                     impactos.add(new Impacto(proyectil, jugador));
                 }
             }

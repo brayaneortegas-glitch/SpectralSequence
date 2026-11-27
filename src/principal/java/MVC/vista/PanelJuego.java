@@ -19,6 +19,7 @@ public class PanelJuego extends JPanel {
     private final Image cielo = imagen("nivel/fondo/Fondo_capa_cielo.png");
     private final Image catedral = imagen("nivel/fondo/Fondo_capa_catedral.png");
     private final Image ruinas = imagen("nivel/fondo/Fondo_capa_ruinas.png");
+    private final Image plataformas = imagen("nivel/Nivel_plataformas.png");
     private final Image ian = imagen("animaciones/ian-juego/Ian_caminar.png");
     private final Image poder = imagen("animaciones/ian-juego/Ian_caminar_poder.png");
     private final Image espectro = imagen("animaciones/espectro/Espectro_reposo.png");
@@ -73,7 +74,8 @@ public class PanelJuego extends JPanel {
         dibujarCapa(g, ruinas, 0.6);
         Graphics mundo = g.create();
         mundo.translate(-camaraX, 600 - nivel.getAlto());
-        for (Plataforma plataforma : nivel.getPlataformas()) rectangulo(mundo, plataforma, Color.DARK_GRAY);
+        mundo.drawImage(plataformas, 0, 0, nivel.getAncho(), nivel.getAlto(), this);
+
         for (Trampa trampa : nivel.getTrampas()) rectangulo(mundo, trampa, Color.RED);
         for (PuntoControl punto : nivel.getPuntosControl()) {
             mundo.setColor(punto.getNumero() <= partida.getPuntoControlActual() ? Color.GREEN : Color.GRAY);
