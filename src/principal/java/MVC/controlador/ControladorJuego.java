@@ -91,6 +91,9 @@ public class ControladorJuego {
             Proyectil bala = impacto.getProyectil();
             if (bala.impactar(impacto.getObjetivo()) && bala.getOrigen() == Proyectil.Origen.JUGADOR) {
                 jugador.registrarImpactoValido();
+                if (impacto.getObjetivo() instanceof Arghon arghon && arghon.estaDerrotado()) {
+                    agregarRecompensaFinal("arghon", 100);
+                }
                 if (impacto.getObjetivo() instanceof Spectrum enemigo && !enemigo.estaVivo()) {
                     partida.agregarPuntos("spectrum-" + enemigo.getId() + "-" + enemigo.getEstado(), 100);
                 }

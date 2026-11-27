@@ -1,5 +1,7 @@
 package MVC.vista;
 
+import MVC.controlador.Juego;
+import java.io.IOException;
 import javax.swing.*;
 import java.awt.*;
 
@@ -40,7 +42,11 @@ public class PanelNombre extends JPanel {
 
             } else {
 
-                JOptionPane.showMessageDialog(this, "Bienvenido " + nombre);
+                try {
+                    Juego.comenzar(nombre, ventana);
+                } catch (IOException error) {
+                    JOptionPane.showMessageDialog(this, "No se pudo cargar el historial: " + error.getMessage());
+                }
             }
 
 
