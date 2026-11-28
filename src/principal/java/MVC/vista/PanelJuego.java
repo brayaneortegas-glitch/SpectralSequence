@@ -107,7 +107,7 @@ public class PanelJuego extends JPanel {
 
         }
 
-        dibujarAnclado(mundo, jugador, hojaIan, 80, 28, 62,1.5,  cuadro, jugador.getDireccion() < 0);
+        dibujarAnclado(mundo, jugador, hojaIan, 80, 28, 62,1,  cuadro, jugador.getDireccion() < 0);
 
         mundo.dispose();
 
@@ -155,11 +155,28 @@ public class PanelJuego extends JPanel {
         int pieY = (int) (entidad.getY() +  entidad.getAlto());
         int origen = cuadro % (hoja.getWidth(this) / anchoCelda) * anchoCelda;
         int altoCelda = hoja.getHeight(this);
-        int esquinaX = pieX - (int) (anclaX * escala);
+        int ancla = anclaX;
+        if (voltear){
+
+            ancla = anchoCelda - anclaX;
+
+        }
+        int esquinaX = pieX - (int) (ancla * escala);
         int esquinaY = pieY - (int) (anclaY * escala);
         int anchoDestino = (int) (anchoCelda * escala);
         int altoDestino = (int) (altoCelda * escala);
-        g.drawImage(hoja, esquinaX, esquinaY, esquinaX + anchoDestino, esquinaY + altoDestino, origen, 0, origen + anchoCelda, altoCelda, this);
+
+        if (voltear){
+
+            g.drawImage(hoja, esquinaX + anchoDestino, esquinaY, esquinaX, esquinaY + altoDestino, origen, 0, origen + anchoCelda, altoCelda, this);
+
+        }else {
+
+            g.drawImage(hoja,esquinaX, esquinaY, esquinaX + anchoDestino, esquinaY + altoDestino, origen, 0, origen + anchoCelda, altoCelda, this);
+
+        }
+
+
 
 
 
