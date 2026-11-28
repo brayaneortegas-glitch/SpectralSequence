@@ -5,7 +5,9 @@ public class Proyectil extends Entidad {
         JUGADOR, ENEMIGO
     }
 
-    private static final int TAMANIO = 8;
+    private static final int ANCHO_JUGADOR = 8;
+    private static final int ALTO_JUGADOR = 3;
+    private static final int TAMANIO_ENEMIGO = 8;
     private final int danio;
     private final double velocidad;
     private final Origen origen;
@@ -15,7 +17,8 @@ public class Proyectil extends Entidad {
 
 
     public Proyectil(double x, double y, double direccionX, double direccionY, double velocidad, int danio, Origen origen) {
-        super(x, y, TAMANIO, TAMANIO);
+        super(x, y, origen == Origen.JUGADOR ? ANCHO_JUGADOR : TAMANIO_ENEMIGO,
+                origen == Origen.JUGADOR ? ALTO_JUGADOR : TAMANIO_ENEMIGO);
         double longitud = Math.hypot(direccionX, direccionY);
         this.direccionX = direccionX / longitud;
         this.direccionY = direccionY / longitud;
