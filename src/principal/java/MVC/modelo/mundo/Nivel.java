@@ -17,9 +17,8 @@ public class Nivel {
     private static final int ALTO_SPECTRUM = 100;
     private static final int ANCHO_ARGHON = 160;
     private static final int ALTO_ARGHON = 200;
-    private static final int ANCHO_IAN = 70;
-    private static final int ALTO_IAN = 90;
-    // Interior de la arena final, entre sus dos muros.
+    private static final int ANCHO_IAN = 32;
+    private static final int ALTO_IAN = 50;
     private static final int INICIO_ARENA_ARGHON = 3232;
     private static final int FIN_ARENA_ARGHON = 3968;
     private static final int SUELO_ARENA_ARGHON = 536;
@@ -44,16 +43,19 @@ public class Nivel {
         puntosControl.clear();
         exodoCreado = false;
 
-        // Nivel_plataformas.png mide 2000 x 300 y se dibuja a 4000 x 600.
-        // Coordenadas del mundo: multiplicar por 2 las medidas de la imagen.
-        // Suelo (los huecos de los pinchos quedan libres).
+        // Suelo
         plataformas.add(new Plataforma(0, 536, 736, 64));
         plataformas.add(new Plataforma(832, 536, 224, 64));
         plataformas.add(new Plataforma(1056, 472, 256, 128));
         plataformas.add(new Plataforma(2016, 536, 864, 64));
         plataformas.add(new Plataforma(2944, 536, 1056, 64));
 
-        // Plataformas elevadas, de izquierda a derecha.
+        trampas.add(new Trampa(737, 590, 96, 5));
+        trampas.add(new Trampa(1312, 590, 704, 5));
+        trampas.add(new Trampa(2880, 590, 64, 5));
+
+
+        // Plataformas elevadas
         plataformas.add(new Plataforma(160, 440, 192, 16));
         plataformas.add(new Plataforma(416, 344, 224, 16));
         plataformas.add(new Plataforma(896, 376, 128, 16));
@@ -64,7 +66,7 @@ public class Nivel {
         plataformas.add(new Plataforma(3520, 344, 160, 16));
         plataformas.add(new Plataforma(3744, 440, 160, 16));
 
-        // Piedras para cruzar el foso central.
+        // Parkour
         plataformas.add(new Plataforma(1376, 472, 32, 32));
         plataformas.add(new Plataforma(1472, 408, 32, 32));
         plataformas.add(new Plataforma(1568, 440, 32, 32));
@@ -73,23 +75,21 @@ public class Nivel {
         plataformas.add(new Plataforma(1856, 408, 32, 32));
         plataformas.add(new Plataforma(1952, 472, 32, 32));
 
-        // Muros de la arena. La entrada deja un paso de 96 px sobre el suelo.
+        // Entrada a arena de Arghon, mide 96px
         plataformas.add(new Plataforma(3200, 0, 32, 440));
         plataformas.add(new Plataforma(3968, 0, 32, 536));
 
-        trampas.add(new Trampa(600, 620, 100, 20));
-        trampas.add(new Trampa(1150, 620, 100, 20));
 
         puntosControl.add(new PuntoControl(64, 472, 32, 64, 0, 64, 536 - ALTO_IAN));
-        puntosControl.add(new PuntoControl(1216, 408, 32, 64, 1, 1216, 472 - ALTO_IAN));
+        puntosControl.add(new PuntoControl(3100, 472, 32, 64, 1, 3100, 472 - ALTO_IAN));
 
         Point2D.Double inicio = getPosicionPuntosControl(0);
         jugador = new Jugador(inicio.x, inicio.y, ANCHO_IAN, ALTO_IAN);
 
-        enemigos.add(new Spectrum(1, 1, 1.2, 576, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
-        enemigos.add(new Spectrum(2, 1, 1.2, 960, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
-        enemigos.add(new Spectrum(3, 1, 1.2, 2240, 488, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
-        enemigos.add(new Spectrum(4, 1, 1.2, 2496, 296, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(1, 1, 1.2, 576, 536 - ALTO_SPECTRUM, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(2, 1, 1.2, 960, 536 - ALTO_SPECTRUM, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(3, 1, 1.2, 2240, 440 - ALTO_SPECTRUM, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
+        enemigos.add(new Spectrum(4, 1, 1.2, 2496, 344 - ALTO_SPECTRUM, ANCHO_SPECTRUM, ALTO_SPECTRUM, 100.0, 300.0, 15.0));
 
         List<Point2D.Double> destinos = new ArrayList<>();
         double yArghon = SUELO_ARENA_ARGHON - ALTO_ARGHON;
@@ -188,32 +188,59 @@ public class Nivel {
         return null;
     }
 
-    public Point2D.Double buscarPosicionSegura(Jugador jugador) {
-        Rectangle2D ian = jugador.obtenerLimites();
-        double y = plataformas.get(0).getY() - ALTO_SPECTRUM;
-        double der = ian.getMaxX() + 100;
-        double izq = ian.getMinX() - 100 - ANCHO_SPECTRUM;
-        if (esZonaLibre(der, y)) {
-            return new Point2D.Double(der, y);
-        }
-        if (esZonaLibre(izq, y)) {
-            return new Point2D.Double(izq, y);
-        }
-        return null;
+    public Point2D.Double buscarPosicion(Jugador jugador, Spectrum spectrum) {
+        return buscarPosicionSegura(jugador, spectrum.getAncho(), spectrum.getAlto());
     }
 
-    private boolean esZonaLibre(double x, double y) {
-        if (x < 0 || x + ANCHO_SPECTRUM > ancho) {
+    private Point2D.Double buscarPosicionSegura(Jugador jugador, int anchoSpectrum, int altoSpectrum) {
+        Rectangle2D ian = jugador.obtenerLimites();
+        Point2D.Double mejor = null;
+        double menorDistancia = Double.POSITIVE_INFINITY;
+        // Probar varios espacios a ambos lados por si ya hay otro Spectrum cerca.
+        for (int intento = 0; intento < 3; intento++) {
+            double separacion = 100 + intento * (anchoSpectrum + 4);
+            double[] posicionesX = {ian.getMaxX() + separacion, ian.getMinX() - separacion - anchoSpectrum};
+            for (double x : posicionesX) {
+                for (Plataforma plataforma : plataformas) {
+                    if (x < plataforma.getX() || x + anchoSpectrum > plataforma.getX() + plataforma.getAncho()) {
+                        continue;
+                    }
+                    double y = plataforma.getY() - altoSpectrum;
+                    Rectangle2D area = new Rectangle2D.Double(x, y, anchoSpectrum, altoSpectrum);
+                    if (!esZonaLibre(area, jugador)) {
+                        continue;
+                    }
+                    double distancia = Math.hypot(area.getCenterX() - ian.getCenterX(),
+                            area.getMaxY() - ian.getMaxY());
+                    if (distancia < menorDistancia) {
+                        mejor = new Point2D.Double(x, y);
+                        menorDistancia = distancia;
+                    }
+                }
+            }
+        }
+        return mejor;
+    }
+
+    private boolean esZonaLibre(Rectangle2D area, Jugador jugador) {
+        if (area.getMinX() < 0 || area.getMaxX() > ancho || area.getMinY() < 0 || area.getMaxY() > alto
+                || area.intersects(jugador.obtenerLimites())) {
             return false;
         }
-        Rectangle2D area = new Rectangle2D.Double(x, y, ANCHO_SPECTRUM, ALTO_SPECTRUM);
+        for (Plataforma plataforma : plataformas) {
+            if (area.intersects(plataforma.obtenerLimites())) {
+                return false;
+            }
+        }
         for (Trampa trampa : trampas) {
             if (area.intersects(trampa.obtenerLimites())) {
                 return false;
             }
         }
         for (Enemigo enemigo : enemigos) {
-            if (enemigo.estaVivo() && area.intersects(enemigo.obtenerLimites())) {
+            Rectangle2D margenEnemigo = new Rectangle2D.Double(enemigo.getX() - 4, enemigo.getY() - 4,
+                    enemigo.getAncho() + 8, enemigo.getAlto() + 8);
+            if (enemigo.estaVivo() && area.intersects(margenEnemigo)) {
                 return false;
             }
         }

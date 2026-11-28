@@ -1,6 +1,7 @@
 package MVC.modelo.entidades;
 
 import MVC.modelo.mundo.Nivel;
+import MVC.modelo.mundo.Plataforma;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -9,7 +10,8 @@ public class Spectrum extends Enemigo {
     public enum Estado {NORMAL, PENDIENTE, RENACIDO, ELIMINADO}
 
     private static final double MULTIPLICADOR_VELOCIDAD = 1.4;
-    private static final double TIEMPO_PARA_RENACER = 1.5;
+    private static final double TIEMPO_PARA_RENACER = 5.0;
+    private static final double SEPARACION_ENEMIGOS = 4.0;
     private static final int SALUD_BASE = 12;
     // Cuerpo aproximado dentro de cada celda de 48 x 48, sin los margenes y adornos.
     private static final double IMPACTO_X = 12.0 / 48;
@@ -58,8 +60,8 @@ public class Spectrum extends Enemigo {
         return calcularDistancia(jugador) <= rangoDeteccion;
     }
 
-    public void perseguir(Jugador jugador, double dt) {
-        if (!detectar(jugador)) {
+    public void perseguir(Jugador jugador, Nivel nivel, double dt) {
+        if (dt <= 0.0 || !Double.isFinite(dt) || !detectar(jugador)) {
             return;
         }
         double diferenciaX = (jugador.getX() + jugador.getAncho() / 2.0) - (getX() + getAncho() / 2.0);
@@ -74,7 +76,43 @@ public class Spectrum extends Enemigo {
         double rapidez = (estado == Estado.RENACIDO) ? velocidadRenacido : getVelocidad();
 
         double paso = Math.min(rapidez * dt, distanciaRestante);
-        establecerPosicion(getX() + getDireccion() * paso, getY());
+        moverSinAtravesar(getDireccion() * paso, nivel);
+    }
+
+    private void moverSinAtravesar(double desplazamiento, Nivel nivel) {
+        if (desplazamiento == 0.0) {
+            return;
+        }
+        double destinoX = Math.max(0.0, Math.min(getX() + desplazamiento,
+                nivel.getAncho() - getAncho()));
+        Rectangle2D cuerpo = obtenerLimites();
+        for (Plataforma plataforma : nivel.getPlataformas()) {
+            destinoX = limitarContra(cuerpo, plataforma.obtenerLimites(), destinoX, desplazamiento, 0.0);
+        }
+        for (Enemigo enemigo : nivel.getEnemigos()) {
+            if (enemigo != this && enemigo.estaVivo()) {
+                destinoX = limitarContra(cuerpo, enemigo.obtenerLimites(), destinoX,
+                        desplazamiento, SEPARACION_ENEMIGOS);
+            }
+        }
+        establecerPosicion(destinoX, getY());
+    }
+
+    private double limitarContra(Rectangle2D cuerpo, Rectangle2D obstaculo,
+                                 double destinoX, double desplazamiento, double separacion) {
+        if (cuerpo.getMaxY() <= obstaculo.getMinY() || cuerpo.getMinY() >= obstaculo.getMaxY()) {
+            return destinoX;
+        }
+
+        if (desplazamiento > 0.0 && cuerpo.getMaxX() <= obstaculo.getMinX()) {
+            double limite = obstaculo.getMinX() - getAncho() - separacion;
+            return Math.min(destinoX, Math.max(getX(), limite));
+        }
+        if (desplazamiento < 0.0 && cuerpo.getMinX() >= obstaculo.getMaxX()) {
+            double limite = obstaculo.getMaxX() + separacion;
+            return Math.max(destinoX, Math.min(getX(), limite));
+        }
+        return destinoX;
     }
 
     public void renacer(double x, double y) {
@@ -141,7 +179,7 @@ public class Spectrum extends Enemigo {
         if (estado == Estado.PENDIENTE) {
             segundosParaRenacer -= dt;
             if (segundosParaRenacer <= 0.0 && jugador != null && jugador.estaVivo()) {
-                Point2D.Double pos = nivel.buscarPosicionSegura(jugador);
+                Point2D.Double pos = nivel.buscarPosicion(jugador, this);
                 if (pos != null) {
                     renacer(pos.x, pos.y);
                 }
@@ -150,7 +188,7 @@ public class Spectrum extends Enemigo {
         }
         actualizarCooldown(dt);
         if (detectar(jugador)) {
-            perseguir(jugador, dt);
+            perseguir(jugador, nivel, dt);
             atacar(jugador, nivel);
         }
     }

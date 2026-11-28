@@ -3,6 +3,7 @@ package MVC.modelo.entidades;
 import MVC.modelo.mundo.Nivel;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,6 +19,11 @@ public class Arghon extends Enemigo {
     private static final double SEPARACION_LLUVIA = 65.0;
     private static final double ALTURA_LLUVIA = 300.0;
     private static final double MARGEN_BORDE_LLUVIA = 16.0;
+    // Cuerpo central en cada celda de 128 x 128: excluye margenes, baston y adornos.
+    private static final double IMPACTO_X = 42.0 / 128;
+    private static final double IMPACTO_Y = 32.0 / 128;
+    private static final double IMPACTO_ANCHO = 48.0 / 128;
+    private static final double IMPACTO_ALTO = 84.0 / 128;
     private Fase fase;
     private boolean combateActivo;
     private int umbralPendiente;
@@ -48,6 +54,14 @@ public class Arghon extends Enemigo {
         }
         combateActivo = true;
         reiniciarCooldown();
+    }
+
+    @Override
+    public Rectangle2D obtenerLimitesImpacto() {
+        // La vista mantiene la orientacion de esta hoja aunque cambie la direccion del ataque.
+        return new Rectangle2D.Double(getX() + getAncho() * IMPACTO_X,
+                getY() + getAlto() * IMPACTO_Y,
+                getAncho() * IMPACTO_ANCHO, getAlto() * IMPACTO_ALTO);
     }
 
     @Override
