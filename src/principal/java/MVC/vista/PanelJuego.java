@@ -94,7 +94,19 @@ public class PanelJuego extends JPanel {
         }
         for (Proyectil bala : nivel.getProyectiles()) rectangulo(mundo, bala,
                 bala.getOrigen() == Proyectil.Origen.JUGADOR ? Color.YELLOW : Color.ORANGE);
-        dibujarFicha(mundo, jugador, jugador.isPoderActivo() ? poder : ian, 80, cuadro, jugador.getDireccion() < 0);
+        //dibujarFicha(mundo, jugador, jugador.isPoderActivo() ? poder : ian, 80, cuadro, jugador.getDireccion() < 0);
+
+        Image hojaIan;
+        if (jugador.isPoderActivo()){
+            hojaIan = poder;
+        }else {
+
+            hojaIan = ian;
+
+        }
+
+        dibujarAnclado(mundo, jugador, hojaIan, 80, 28, 62,1.5,  cuadro, jugador.getDireccion() < 0);
+
         mundo.dispose();
 
         g.setColor(Color.BLACK);
@@ -130,4 +142,28 @@ public class PanelJuego extends JPanel {
         g.drawImage(hoja, voltear ? fin : x, y, voltear ? x : fin, y + entidad.getAlto(),
                 origen, 0, origen + anchoCelda, hoja.getHeight(this), this);
     }
+
+    private  void dibujarAnclado(Graphics g, Entidad entidad, Image hoja,int anchoCelda, int anclaX, int anclaY, double escala, int cuadro, boolean voltear){
+
+        int pieX = (int) (entidad.getX() +  entidad.getAncho() / 2.0);
+        int pieY = (int) (entidad.getY() +  entidad.getAlto());
+        int origen = cuadro % (hoja.getWidth(this) / anchoCelda) * anchoCelda;
+        int altoCelda = hoja.getHeight(this);
+        int esquinaX = pieX - (int) (anclaX * escala);
+        int esquinaY = pieY - (int) (anclaY * escala);
+        int anchoDestino = (int) (anchoCelda * escala);
+        int altoDestino = (int) (altoCelda * escala);
+        g.drawImage(hoja, esquinaX, esquinaY, esquinaX + anchoDestino, esquinaY + altoDestino, origen, 0, origen + anchoCelda, altoCelda, this);
+
+
+
+
+
+
+    }
+
+
+
+
+
 }
