@@ -26,6 +26,7 @@ public class PanelJuego extends JPanel {
     private final Image jefe = imagen("animaciones/arghon-juego/Arghon_reposo.png");
     private final Image vida = imagen("objetos/Vida_extra.png");
     private final Image exodo = imagen("objetos/Nexo.png");
+    private final Image lluvia = imagen("proyectiles/Arghon_proyectil_juego.png");
     private final Indicadores indicadores = new Indicadores();
     private int camaraX;
     private int cuadro;
@@ -91,12 +92,39 @@ public class PanelJuego extends JPanel {
         for (Enemigo enemigo : nivel.getEnemigos()) {
             if (enemigo.estaVivo()) {
                 boolean esJefe = enemigo instanceof Arghon;
-                dibujarFicha(mundo, enemigo, esJefe ? jefe : espectro, esJefe ? 128 : 48, cuadro, false);
+                //dibujarFicha(mundo, enemigo, esJefe ? jefe : espectro, esJefe ? 128 : 48, cuadro, false);
+
+                if (esJefe){
+
+                    dibujarAnclado(mundo, enemigo, jefe, 128,64,116, 2, cuadro, false);
+
+                }else {
+
+                    dibujarAnclado(mundo, enemigo, espectro, 48,24,46,2, cuadro, false);
+
+                }
             }
         }
-        for (Proyectil bala : nivel.getProyectiles()) rectangulo(mundo, bala,
-                bala.getOrigen() == Proyectil.Origen.JUGADOR ? Color.YELLOW : Color.ORANGE);
+        //for (Proyectil bala : nivel.getProyectiles()) rectangulo(mundo, bala,
+               // bala.getOrigen() == Proyectil.Origen.JUGADOR ? Color.YELLOW : Color.ORANGE);
         //dibujarFicha(mundo, jugador, jugador.isPoderActivo() ? poder : ian, 80, cuadro, jugador.getDireccion() < 0);
+
+        for (Proyectil bala : nivel.getProyectiles()){
+
+            if (bala.getOrigen() == Proyectil.Origen.ENEMIGO){
+
+                dibujarAnclado(mundo, bala, lluvia,24, 12, 45, 2.5, cuadro, false);
+
+            }else {
+
+                rectangulo(mundo,bala, Color.YELLOW);
+
+
+            }
+
+
+
+        }
 
         Image hojaIan;
         if (jugador.isPoderActivo()){
